@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Auth from "./components/auth/Auth";
-import Login from "./components/auth/subComponents/Login";
-import CreateAccount from "./components/auth/subComponents/CreateAccount";
 import { Toaster } from "react-hot-toast";
+import Auth from "./pages/auth/Auth";
+import Login from "./pages/auth/components/Login";
+import CreateAccount from "./pages/auth/components/CreateAccount";
 
 export default function App() {
   return (
