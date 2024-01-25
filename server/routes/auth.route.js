@@ -25,27 +25,32 @@ router.post("/login", async (req, res) => {
     const accessToken = sign({ email: user.email, id: user.id }, "secretKey");
     res.json({ user: user, accessToken: accessToken });
   } catch (error) {
-    res.json({ error: "Internal server Error" });
+    console.log(error.message);
+    res.json({ error: "Internal Server Error: " + error.message });
   }
 });
 
 // Create Account
 router.post("/create-account", async (req, res) => {
   try {
+    const { email } = req.body;
+    const userExists = await users.findOne({ where: { email: email } });
+    if (userExists) {
+      console.log("User with this email already exists!");
+      return res.json({ error: "User with this email already exists!" });
+    }
+
     const { password } = req.body;
-
     const hash = await bcrypt.hash(password, 10);
-
     await users.create({
       ...req.body,
       password: hash,
     });
 
-    const user = req.body;
-
-    res.json("Successfully created account for: " + req.body.name);
+    res.json({ success: "Successfully created account for: " + req.body.name });
   } catch (error) {
-    res.json("Internal Server Error");
+    console.log(error.message);
+    res.json({ error: "Internal Server Error: " + error.message });
   }
 });
 
