@@ -33,11 +33,8 @@ export function UserContextProvider({ children }: Props) {
 
     if (Boolean(storedUser) && Boolean(storedAccessToken)) {
       setUser(JSON.parse(storedUser as string));
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <UserContext.Provider
