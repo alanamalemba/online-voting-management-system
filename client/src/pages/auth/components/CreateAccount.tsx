@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { myFetch } from "../../../utilities/myFetch";
 import { serverUrl } from "../../../utilities/Constants";
 import toast from "react-hot-toast";
+import { UserContext } from "../../../context/UserContext";
 
 export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { setIsLoggedIn } = useContext(UserContext);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -26,6 +29,9 @@ export default function CreateAccount() {
       });
 
       console.log(res);
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("user", JSON.stringify(res.user));
+      setIsLoggedIn(true);
       toast.success(res.success);
     } catch (error) {
       if (error instanceof Error) {
