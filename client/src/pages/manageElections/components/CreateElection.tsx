@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { myFetch } from "../../../utilities/myFetch";
 import { serverUrl } from "../../../utilities/Constants";
 import { ElectionType, UserType } from "../../../utilities/Types";
@@ -14,6 +14,8 @@ export default function CreateElection() {
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { user } = useContext(UserContext);
 
@@ -81,7 +83,16 @@ export default function CreateElection() {
 
       toast.success(res.success);
 
-      console.log(res);
+      setName("");
+      setCandidateRegEmail("");
+      setVoterRegEmail("");
+      setStartDate("");
+      setStartTime("");
+      setEndDate("");
+      setEndTime("");
+      setPhoto(null);
+
+      fileInputRef.current && (fileInputRef.current.value = "");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -186,6 +197,7 @@ export default function CreateElection() {
           type="file"
           accept="image/*"
           required
+          ref={fileInputRef}
           onChange={(e) => setPhoto(e.target.files?.[0] || null)}
         />
       </label>
