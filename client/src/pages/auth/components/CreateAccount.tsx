@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { myFetch } from "../../../utilities/myFetch";
 import { serverUrl } from "../../../utilities/Constants";
 import toast from "react-hot-toast";
@@ -10,6 +10,8 @@ export default function CreateAccount() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const { setIsLoggedIn } = useContext(UserContext);
 
@@ -31,8 +33,9 @@ export default function CreateAccount() {
       console.log(res);
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("user", JSON.stringify(res.user));
-      setIsLoggedIn(true);
       toast.success(res.success);
+      navigate(`/`);
+      setIsLoggedIn(true);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);

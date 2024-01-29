@@ -5,6 +5,9 @@ const cors = require("cors");
 
 // Route Imports
 const authRoute = require("./routes/auth.route");
+const usersRoute = require("./routes/users.route");
+const uploadRoute = require("./routes/upload.route");
+const electionsRoute = require("./routes/elections.route");
 //...
 
 const app = express();
@@ -14,6 +17,9 @@ app.use(cors());
 
 // Routes
 app.use("/auth", authRoute);
+app.use("/users", usersRoute);
+app.use("/upload", uploadRoute);
+app.use("/elections", electionsRoute);
 //...
 
 db.sequelize.sync().then(() => {

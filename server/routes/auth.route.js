@@ -47,7 +47,15 @@ router.post("/create-account", async (req, res) => {
       password: hash,
     });
 
-    res.json({ success: "Successfully created account for: " + req.body.name });
+    const user = await users.findOne({ where: { email: req.body.email } });
+
+    const accessToken = sign({ email: user.email, id: user.id }, "secretKey");
+
+    res.json({
+      success: "Successfully created account for: " + req.body.name,
+      user: user,
+      accessToken: accessToken,
+    });
   } catch (error) {
     console.log(error.message);
     res.json({ error: "Internal Server Error: " + error.message });
