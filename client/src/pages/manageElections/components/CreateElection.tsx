@@ -19,34 +19,6 @@ export default function CreateElection() {
 
   const { user } = useContext(UserContext);
 
-  function addOneMinuteToTime(time: string): string {
-    const [hours, minutes] = time.split(":");
-    let newHours = parseInt(hours, 10);
-    let newMinutes = parseInt(minutes, 10);
-
-    // Add one minute
-    newMinutes += 1;
-
-    // Handle rollover to the next hour
-    if (newMinutes >= 60) {
-      newMinutes -= 60;
-      newHours += 1;
-
-      // Ensure 24-hour format
-      if (newHours >= 24) {
-        newHours -= 24;
-      }
-    }
-
-    // Format the result
-    const newTime = `${newHours.toString().padStart(2, "0")}:${newMinutes
-      .toString()
-      .padStart(2, "0")}`;
-    return newTime;
-  }
-
-  const minTime: string = addOneMinuteToTime(startTime);
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -183,7 +155,6 @@ export default function CreateElection() {
             className="border shadow rounded p-1"
             type="time"
             required
-            min={minTime}
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
           />
