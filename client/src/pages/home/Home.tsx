@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <section className="h-screen ">
       <div className="bg-yellow-700 text-white px-4 py-6 ">
-        <div className="flex flex-col gap-2 max-w-[1000px] m-auto">
+        <div className="flex flex-col gap-2 max-w-[1000px] m-auto ">
           <h2 className="text-2xl font-bold">
             Welcome to Online voting System
           </h2>

@@ -15,3 +15,21 @@ export type ElectionType = {
   start_date: Date;
   end_date: Date;
 };
+
+export type PositionType = {
+  id?: number;
+  name: string;
+  election_id: number;
+};
+
+export type CandidateApplicationType = {
+  id?: number;
+  user_id?: number;
+  id_number?: string;
+  user_photo_url?: string;
+  id_photo_url?: string;
+  election_id?: number;
+  position_id?: number;
+  manifesto?: string;
+  status?: string;
+};

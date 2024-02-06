@@ -84,11 +84,9 @@ export default function CreateElection() {
     }
   }
 
-  console.log(positions);
-
   return (
     <form
-      className={` grow flex flex-col gap-2 bg-yellow-50 max-w-[500px] mx-auto p-2 rounded shadow-md h-fit `}
+      className={` grow flex flex-col gap-2 bg-yellow-50 max-w-[500px] md:max-w-[700px] mx-auto p-2 rounded shadow-md h-fit `}
       onSubmit={(e) => handleSubmit(e)}
     >
       <h3 className="text-lg text-center font-medium">Create Election</h3>
@@ -206,7 +204,8 @@ export default function CreateElection() {
             +
           </button>
         </div>
-        <div className={`p-1 shadow border rounded bg-gray-200 `}>
+
+        <div className={`p-1 shadow border rounded bg-gray-200 mt-1 `}>
           <p className="font-bold">Positions</p>
           {positions.length <= 0 && (
             <p className="italic text-sm font-thin text-slate-500">

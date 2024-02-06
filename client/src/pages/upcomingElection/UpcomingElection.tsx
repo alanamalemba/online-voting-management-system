@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { serverUrl } from "../../utilities/Constants";
 import { ElectionType } from "../../utilities/Types";
+import CandidateRegistrationForm from "./components/CandidateRegistrationForm";
+import VoterRegistrationForm from "./components/VoterRegistrationForm";
 
 export default function UpcomingElection() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [election, setElection] = useState<ElectionType>();
+  const [isShowCandidateForm, setIsShowCandidateForm] = useState(false);
+  const [isShowVoterForm, setIsShowVoterForm] = useState(false);
 
   const startDate = new Date(election?.start_date as Date).toString();
   const endDate = new Date(election?.end_date as Date).toString();
@@ -19,6 +23,7 @@ export default function UpcomingElection() {
     }
     getData();
   }, [id]);
+
   return (
     <div className="bg-yellow-200 min-h-screen">
       <section className="bg-yellow-700 p-4">
@@ -45,23 +50,34 @@ export default function UpcomingElection() {
         </div>
       </section>
 
-      <section className="p-2 text-yellow-600 bg-yellow-50 mt-2 rounded max-w-[1000px] mx-auto text-xl font-bold flex flex-col gap-2 border shadow-md">
+      <section className="p-2 bg-yellow-50 mt-2 rounded max-w-[1000px] mx-auto   flex flex-col gap-2 border shadow-md">
         <p>Start Date: {startDate}</p>
         <p>End Date: {endDate}</p>
       </section>
 
       <section className="p-2 text-yellow-800 bg-yellow-50 mt-2 rounded max-w-[1000px] mx-auto text-xl font-bold flex  gap-4 border shadow-md">
-        <button className=" bg-yellow-600 text-white p-2 rounded grow">
+        <button
+          className=" bg-yellow-600 text-white p-2 rounded grow"
+          onClick={() => setIsShowVoterForm(true)}
+        >
           Register as Voter
         </button>
-        <button className=" bg-yellow-600 text-white p-2 rounded grow">
+        <button
+          className=" bg-yellow-600 text-white p-2 rounded grow"
+          onClick={() => setIsShowCandidateForm(true)}
+        >
           Register as Candidate
         </button>
       </section>
 
-      <section>
-        <form></form>
-      </section>
+      {isShowCandidateForm && (
+        <CandidateRegistrationForm
+          setIsShowCandidateForm={setIsShowCandidateForm}
+        />
+      )}
+      {isShowVoterForm && (
+        <VoterRegistrationForm setIsShowVoterForm={setIsShowVoterForm} />
+      )}
     </div>
   );
 }
