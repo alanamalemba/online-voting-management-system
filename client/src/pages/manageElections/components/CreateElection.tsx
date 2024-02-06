@@ -15,6 +15,9 @@ export default function CreateElection() {
   const [endTime, setEndTime] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
 
+  const [position, setPosition] = useState("");
+  const [positions, setPositions] = useState<string[]>([]);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { user } = useContext(UserContext);
@@ -23,6 +26,10 @@ export default function CreateElection() {
     e.preventDefault();
 
     try {
+      if (positions.length <= 0) {
+        toast.error("Pleas add at least 1 position");
+        return;
+      }
       // Get the candidate and voter registrar data
       const candidateReg: UserType = await myFetch(
         `${serverUrl}/users/${candidateRegEmail}`
@@ -51,7 +58,10 @@ export default function CreateElection() {
         photo_url: imageUrl,
       };
 
-      const res = await myFetch.post(`${serverUrl}/elections`, data);
+      const res = await myFetch.post(`${serverUrl}/elections`, {
+        data,
+        positions,
+      });
 
       toast.success(res.success);
 
@@ -63,6 +73,7 @@ export default function CreateElection() {
       setEndDate("");
       setEndTime("");
       setPhoto(null);
+      setPositions([]);
 
       fileInputRef.current && (fileInputRef.current.value = "");
     } catch (error) {
@@ -72,6 +83,8 @@ export default function CreateElection() {
       }
     }
   }
+
+  console.log(positions);
 
   return (
     <form
@@ -171,6 +184,41 @@ export default function CreateElection() {
           ref={fileInputRef}
           onChange={(e) => setPhoto(e.target.files?.[0] || null)}
         />
+      </label>
+
+      <label className="flex flex-col gap-1">
+        <p className="text-sm font-medium">Add Election Position(s)</p>
+        <div className="flex gap-1">
+          <input
+            className="border grow shadow rounded p-1 bg-white"
+            value={position}
+            onChange={(e) => setPosition(e.target.value)}
+            required={positions.length <= 0}
+          />
+          <button
+            className="bg-yellow-400  leading-none font-bold text-3xl text-white p-1 w-[40px] h-[40px] rounded border shadow"
+            type="button"
+            onClick={() => {
+              setPositions([...positions, position]);
+              setPosition("");
+            }}
+          >
+            +
+          </button>
+        </div>
+        <div className={`p-1 shadow border rounded bg-gray-200 `}>
+          <p className="font-bold">Positions</p>
+          {positions.length <= 0 && (
+            <p className="italic text-sm font-thin text-slate-500">
+              Please add at least 1 position or more
+            </p>
+          )}
+          {positions.map((position, index) => (
+            <p className="font-semibold italic text-sm" key={index}>
+              {position}
+            </p>
+          ))}
+        </div>
       </label>
 
       <div className="flex justify-center  ">
