@@ -9,6 +9,8 @@ import Home from "./pages/home/Home";
 import Login from "./pages/auth/components/Login";
 import CreateAccount from "./pages/auth/components/CreateAccount";
 import ManageElections from "./pages/manageElections/ManageElections";
+import UpcomingElections from "./pages/upcomingElections/UpcomingElections";
+import UpcomingElection from "./pages/upcomingElection/UpcomingElection";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -24,6 +26,11 @@ export default function App() {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/manage-elections" element={<ManageElections />} />
+            <Route path="/upcoming-elections" element={<UpcomingElections />} />
+            <Route
+              path="/upcoming-election/:id"
+              element={<UpcomingElection />}
+            />
           </>
         ) : (
           <Route path="/" element={<Auth />}>

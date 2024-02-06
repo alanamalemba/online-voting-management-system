@@ -8,10 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     user_photo_url: {
       type: DataTypes.STRING,
       allowNull: false,

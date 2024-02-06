@@ -30,7 +30,7 @@ export default function Home() {
       <div className="bg-yellow-200 h-full">
         <nav className="max-w-[1000px] text-center m-auto p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-semibold">
           <Link
-            to={`/`}
+            to={`/upcoming-elections`}
             className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
           >
             View upcoming elections
