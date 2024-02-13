@@ -82,6 +82,7 @@ export default function CandidateRegistrationForm({
 
       console.log(res);
       toast.success(res.success);
+      setIsShowCandidateForm(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

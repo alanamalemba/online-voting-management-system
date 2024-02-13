@@ -1,13 +1,13 @@
 const express = require("express");
-const { candidate_applications } = require("../models");
+const { voter_applications } = require("../models");
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const candidateApplication = req.body;
+    const voterApplication = req.body;
 
-    await candidate_applications.create(candidateApplication);
+    await voter_applications.create(voterApplication);
 
     res.json({ success: " Application submitted Successfully!" });
   } catch (error) {
@@ -21,7 +21,7 @@ router.get("/:eid/:cid", async (req, res) => {
     const eid = req.params.eid;
     const cid = req.params.cid;
 
-    const application = await candidate_applications.findOne({
+    const application = await voter_applications.findOne({
       where: { election_id: eid, user_id: cid },
     });
 

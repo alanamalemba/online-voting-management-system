@@ -33,3 +33,13 @@ export type CandidateApplicationType = {
   manifesto?: string;
   status?: string;
 };
+
+export type VoterApplicationType = {
+  id?: number;
+  user_id?: number;
+  id_number?: string;
+  user_photo_url?: string;
+  id_photo_url?: string;
+  election_id?: number;
+  status?: string;
+};
