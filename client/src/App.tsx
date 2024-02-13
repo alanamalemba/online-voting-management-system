@@ -8,9 +8,11 @@ import Auth from "./pages/auth/Auth";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/components/Login";
 import CreateAccount from "./pages/auth/components/CreateAccount";
-import ManageElections from "./pages/manageElections/ManageElections";
 import UpcomingElections from "./pages/upcomingElections/UpcomingElections";
 import UpcomingElection from "./pages/upcomingElection/UpcomingElection";
+import ManageAndCreateElections from "./pages/manageAndCreateElections/ManageAndCreateElections";
+import CreateElection from "./pages/manageAndCreateElections/components/CreateElection";
+import ManageElections from "./pages/manageAndCreateElections/components/ManageElections";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -25,7 +27,13 @@ export default function App() {
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
-            <Route path="/manage-elections" element={<ManageElections />} />
+            <Route
+              path="/manage-and-create-elections"
+              element={<ManageAndCreateElections />}
+            >
+              <Route path="create-election" element={<CreateElection />} />
+              <Route path="manage-elections" element={<ManageElections />} />
+            </Route>
             <Route path="/upcoming-elections" element={<UpcomingElections />} />
             <Route
               path="/upcoming-election/:id"

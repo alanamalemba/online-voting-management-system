@@ -86,10 +86,10 @@ export default function CreateElection() {
 
   return (
     <form
-      className={` grow flex flex-col gap-2 bg-yellow-50 max-w-[500px] md:max-w-[700px] mx-auto p-2 rounded shadow-md h-fit `}
+      className={`  flex flex-col gap-2 bg-yellow-50 max-w-[500px] md:max-w-[700px] mx-auto p-2 rounded shadow-md h-fit w-full `}
       onSubmit={(e) => handleSubmit(e)}
     >
-      <h3 className="text-lg text-center font-medium">Create Election</h3>
+      <h3 className="text-lg text-center font-semibold">Create Election</h3>
       <label className="flex flex-col gap-1">
         <p className="text-sm font-medium">Enter Election Name</p>
         <input

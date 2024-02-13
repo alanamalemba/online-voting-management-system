@@ -51,7 +51,7 @@ export default function Home() {
           </Link>
 
           <Link
-            to={`/manage-elections`}
+            to={`/manage-and-create-elections/create-election`}
             className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
           >
             Manage and Create Elections

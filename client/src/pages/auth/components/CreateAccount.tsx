@@ -30,7 +30,6 @@ export default function CreateAccount() {
         password,
       });
 
-      console.log(res);
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("user", JSON.stringify(res.user));
       toast.success(res.success);
