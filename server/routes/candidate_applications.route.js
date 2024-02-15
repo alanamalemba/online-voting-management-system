@@ -16,13 +16,31 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:eid/:cid", async (req, res) => {
+// Get all candidate applications that have that election_id
+router.get("/:eid", async (req, res) => {
   try {
     const eid = req.params.eid;
-    const cid = req.params.cid;
+
+    const applications = await candidate_applications.findAll({
+      where: { election_id: eid },
+    });
+
+    res.json(applications);
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: "Internal server Error!" });
+  }
+});
+
+// get the status of a candidate application with that election_id and
+//  where the user_id is uid
+router.get("/:eid/:uid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const uid = req.params.uid;
 
     const application = await candidate_applications.findOne({
-      where: { election_id: eid, user_id: cid },
+      where: { election_id: eid, user_id: uid },
     });
 
     if (application) {
@@ -30,7 +48,6 @@ router.get("/:eid/:cid", async (req, res) => {
     } else {
       res.json(null);
     }
-    
   } catch (error) {
     console.log(error.message);
     res.json({ error: "Internal server Error!" });

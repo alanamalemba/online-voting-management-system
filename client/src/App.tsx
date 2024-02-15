@@ -12,7 +12,10 @@ import UpcomingElections from "./pages/upcomingElections/UpcomingElections";
 import UpcomingElection from "./pages/upcomingElection/UpcomingElection";
 import ManageAndCreateElections from "./pages/manageAndCreateElections/ManageAndCreateElections";
 import CreateElection from "./pages/manageAndCreateElections/components/CreateElection";
-import ManageElections from "./pages/manageAndCreateElections/components/ManageElections";
+import ManageElections from "./pages/manageAndCreateElections/components/manageElections/ManageElections";
+import CandidateApplications from "./pages/manageAndCreateElections/components/manageElections/components/CandidateApplications";
+import VoterApplications from "./pages/manageAndCreateElections/components/manageElections/components/VoterApplications";
+import ElectionsList from "./pages/manageAndCreateElections/components/manageElections/components/ElectionsList";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -27,14 +30,28 @@ export default function App() {
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home />} />
+
             <Route
               path="/manage-and-create-elections"
               element={<ManageAndCreateElections />}
             >
               <Route path="create-election" element={<CreateElection />} />
-              <Route path="manage-elections" element={<ManageElections />} />
+              <Route path="manage-elections" element={<ManageElections />}>
+                <Route index element={<ElectionsList />} />
+
+                <Route
+                  path="candidate-applications/:eid"
+                  element={<CandidateApplications />}
+                />
+                <Route
+                  path="voter-applications/:eid"
+                  element={<VoterApplications />}
+                />
+              </Route>
             </Route>
+
             <Route path="/upcoming-elections" element={<UpcomingElections />} />
+
             <Route
               path="/upcoming-election/:id"
               element={<UpcomingElection />}

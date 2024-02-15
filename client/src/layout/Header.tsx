@@ -16,7 +16,7 @@ export default function Header() {
     navigate(`/`);
   }
   return (
-    <header className=" bg-yellow-400 py-6 px-4 text-white sticky top-0 z-30 bg-opacity-90">
+    <header className=" bg-yellow-400 py-6 px-4 text-white sticky top-0 z-50 bg-opacity-90">
       <div className="flex justify-between items-center max-w-[1000px] m-auto">
         <h1 className="text-xl font-bold  ">
           <Link to={`/`}>Online Voting System</Link>
