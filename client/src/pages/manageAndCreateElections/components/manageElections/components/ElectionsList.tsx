@@ -15,7 +15,6 @@ export default function ElectionsList() {
       const resData = await myFetch(
         `${serverUrl}/elections/manage-elections/${user?.id}`
       );
-      console.log(resData);
       setElections(resData);
     }
     getData();
@@ -35,6 +34,7 @@ export default function ElectionsList() {
           />
 
           <div className="absolute p-1 bottom-0 flex flex-col justify-evenly w-full items-center bg-white h-1/2 rounded-t bg-opacity-80">
+            <p className=" font-semibold">{election.name}</p>
             <Link
               className="border-2 border-black p-1 rounded w-full text-center bg-yellow-400"
               to={`edit-election/${election.id}`}

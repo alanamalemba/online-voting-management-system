@@ -24,6 +24,8 @@ export type PositionType = {
 
 export type CandidateApplicationType = {
   id?: number;
+  name: string;
+  position: string;
   user_id?: number;
   id_number?: string;
   user_photo_url?: string;
@@ -36,6 +38,7 @@ export type CandidateApplicationType = {
 
 export type VoterApplicationType = {
   id?: number;
+  name: string;
   user_id?: number;
   id_number?: string;
   user_photo_url?: string;
