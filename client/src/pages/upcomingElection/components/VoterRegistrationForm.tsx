@@ -8,9 +8,13 @@ import { VoterApplicationType } from "../../../utilities/Types";
 
 type Props = {
   setIsShowVoterForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setVoterStatus: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function VoterRegistrationForm({ setIsShowVoterForm }: Props) {
+export default function VoterRegistrationForm({
+  setIsShowVoterForm,
+  setVoterStatus,
+}: Props) {
   const [Id, setId] = useState("");
 
   const [passportPhoto, setPassportPhoto] = useState<File | null>(null);
@@ -52,6 +56,7 @@ export default function VoterRegistrationForm({ setIsShowVoterForm }: Props) {
 
       console.log(res);
       toast.success(res.success);
+      setVoterStatus("pending");
       setIsShowVoterForm(false);
     } catch (error) {
       if (error instanceof Error) {

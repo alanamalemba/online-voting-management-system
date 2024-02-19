@@ -12,6 +12,7 @@ const votersRoute = require("./routes/voters.route");
 const positionsRoute = require("./routes/positions.route");
 const candidate_applicationsRoute = require("./routes/candidate_applications.route");
 const voter_applicationsRoute = require("./routes/voter_applications.route");
+const candidatesRoute = require("./routes/candidates.route");
 //...
 
 const app = express();
@@ -29,6 +30,7 @@ app.use("/voters", votersRoute);
 app.use("/positions", positionsRoute);
 app.use("/candidate_applications", candidate_applicationsRoute);
 app.use("/voter_applications", voter_applicationsRoute);
+app.use("/candidates", candidatesRoute);
 //...
 
 db.sequelize.sync().then(() => {

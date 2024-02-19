@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { myFetch } from "../../../../../utilities/myFetch";
 import { serverUrl } from "../../../../../utilities/Constants";
 import { CandidateApplicationType } from "../../../../../utilities/Types";
+import toast from "react-hot-toast";
 
 export default function CandidateApplications() {
   const { eid } = useParams();
@@ -29,14 +30,31 @@ export default function CandidateApplications() {
     getData();
   }, [eid]);
 
-  async function updateStatus(id: number, status: string) {
+  async function updateStatus(
+    id: number,
+    status: string,
+    positionId: number,
+    userId: number,
+    photoUrl: string,
+    manifesto: string
+  ) {
     try {
       const resData = await myFetch.post(
         `${serverUrl}/candidate_applications/update/status/${id}`,
         { status: status }
       );
 
+      const candRes = await myFetch.post(`${serverUrl}/candidates`, {
+        election_id: eid,
+        user_id: userId,
+        position_id: positionId,
+        photo_url: photoUrl,
+        manifesto: manifesto,
+      });
+
       console.log(resData);
+      console.log(candRes);
+      toast.success(resData);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -96,7 +114,14 @@ export default function CandidateApplications() {
                   <button
                     className=" border  p-2 rounded grow border-red-600 text-red-600"
                     onClick={() =>
-                      updateStatus(application.id as number, "rejected")
+                      updateStatus(
+                        application.id as number,
+                        "rejected",
+                        application.position_id as number,
+                        application.user_id as number,
+                        application.user_photo_url as string,
+                        application.manifesto as string
+                      )
                     }
                   >
                     Reject
@@ -104,7 +129,14 @@ export default function CandidateApplications() {
                   <button
                     className=" border  p-2 rounded grow border-green-600 text-green-600"
                     onClick={() =>
-                      updateStatus(application.id as number, "accepted")
+                      updateStatus(
+                        application.id as number,
+                        "accepted",
+                        application.position_id as number,
+                        application.user_id as number,
+                        application.user_photo_url as string,
+                        application.manifesto as string
+                      )
                     }
                   >
                     Approve

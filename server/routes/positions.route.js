@@ -13,4 +13,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:eid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const positionsList = await positions.findAll({
+      where: { election_id: eid },
+    });
+    res.json(positionsList);
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: "Internal server Error!" });
+  }
+});
+
 module.exports = router;

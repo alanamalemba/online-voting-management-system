@@ -11,10 +11,12 @@ import toast from "react-hot-toast";
 
 type Props = {
   setIsShowCandidateForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setCandidateStatus: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function CandidateRegistrationForm({
   setIsShowCandidateForm,
+  setCandidateStatus,
 }: Props) {
   const [Id, setId] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
@@ -82,6 +84,7 @@ export default function CandidateRegistrationForm({
 
       console.log(res);
       toast.success(res.success);
+      setCandidateStatus("pending");
       setIsShowCandidateForm(false);
     } catch (error) {
       if (error instanceof Error) {
@@ -146,11 +149,14 @@ export default function CandidateRegistrationForm({
             <option disabled defaultValue="" value="">
               --- select a position ---
             </option>
-            {positions.map((position) => (
-              <option key={position.id} value={position.id}>
-                {position.name}
-              </option>
-            ))}
+            {positions.map(
+              (position) =>
+                position.election_id == parseInt(id as string) && (
+                  <option key={position.id} value={position.id}>
+                    {position.name}
+                  </option>
+                )
+            )}
           </select>
         </label>
 

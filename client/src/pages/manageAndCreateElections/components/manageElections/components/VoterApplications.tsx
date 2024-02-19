@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { myFetch } from "../../../../../utilities/myFetch";
 import { serverUrl } from "../../../../../utilities/Constants";
 import { VoterApplicationType } from "../../../../../utilities/Types";
+import toast from "react-hot-toast";
 
 export default function VoterApplications() {
   const { eid } = useParams();
@@ -25,14 +26,22 @@ export default function VoterApplications() {
     getData();
   }, [eid]);
 
-  async function updateStatus(id: number, status: string) {
+  async function updateStatus(id: number, status: string, userId: number) {
     try {
       const resData = await myFetch.post(
         `${serverUrl}/voter_applications/update/status/${id}`,
         { status: status }
       );
 
+      const voterRes = await myFetch.post(`${serverUrl}/voters`, {
+        election_id: eid,
+        user_id: userId,
+        voted: false,
+      });
+
       console.log(resData);
+      console.log(voterRes);
+      toast.success(resData);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -90,7 +99,11 @@ export default function VoterApplications() {
                   <button
                     className=" border  p-2 rounded grow border-red-600 text-red-600"
                     onClick={() =>
-                      updateStatus(application.id as number, "rejected")
+                      updateStatus(
+                        application.id as number,
+                        "rejected",
+                        application.user_id as number
+                      )
                     }
                   >
                     Reject
@@ -98,7 +111,11 @@ export default function VoterApplications() {
                   <button
                     className=" border  p-2 rounded grow border-green-600 text-green-600"
                     onClick={() =>
-                      updateStatus(application.id as number, "accepted")
+                      updateStatus(
+                        application.id as number,
+                        "accepted",
+                        application.user_id as number
+                      )
                     }
                   >
                     Approve

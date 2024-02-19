@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    photo_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
   return Candidates;

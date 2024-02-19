@@ -37,7 +37,7 @@ export default function Home() {
           </Link>
 
           <Link
-            to={`/`}
+            to={`/vote`}
             className=" bg-yellow-50 hover:scale-105 duration-300  p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
           >
             Vote in elections you are registered in

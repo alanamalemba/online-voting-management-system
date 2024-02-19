@@ -1,20 +1,20 @@
 const express = require("express");
-const { voters } = require("../models");
+const { candidates } = require("../models");
 
 const router = express.Router();
 
 router.get("/:uid/:eid", async (req, res) => {
   try {
-    const voter = await voters.findOne({
+    const candidate = await candidates.findOne({
       where: { user_id: req.params.uid, election_id: req.params.eid },
     });
 
-    if (!voter) {
+    if (!candidate) {
       res.json(null);
       return;
     }
 
-    res.json(voter);
+    res.json(candidate);
   } catch (error) {
     console.error(error.message);
     res.json({ error: "Internal Server Error!" });
@@ -23,9 +23,9 @@ router.get("/:uid/:eid", async (req, res) => {
 
 router.post("", async (req, res) => {
   try {
-    const voter = req.body;
-    await voters.create(voter);
-    res.json("succesfuly updatede voter information");
+    const candidate = req.body;
+    await candidates.create(candidate);
+    res.json("Candidate information saved succesfully!");
   } catch (error) {
     console.error(error.message);
     res.json({ error: "Internal Server Error!" });

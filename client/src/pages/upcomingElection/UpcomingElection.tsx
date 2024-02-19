@@ -137,10 +137,14 @@ export default function UpcomingElection() {
       {isShowCandidateForm && (
         <CandidateRegistrationForm
           setIsShowCandidateForm={setIsShowCandidateForm}
+          setCandidateStatus={setCandidateStatus}
         />
       )}
       {isShowVoterForm && (
-        <VoterRegistrationForm setIsShowVoterForm={setIsShowVoterForm} />
+        <VoterRegistrationForm
+          setIsShowVoterForm={setIsShowVoterForm}
+          setVoterStatus={setVoterStatus}
+        />
       )}
     </div>
   );
