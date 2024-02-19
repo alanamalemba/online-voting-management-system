@@ -32,15 +32,29 @@ export default function CandidateCard({ candidate }: Props) {
   }, [candidate]);
 
   function handleClicked() {
-    setVotes([
-      ...votes,
-      {
-        election_id: candidate.election_id as number,
-        candidate_id: candidate.id as number,
-        position_id: candidate.position_id as number,
-      },
-    ]);
+    // Check if the vote already exists for the candidate
+    const existingVoteIndex = votes.findIndex(
+      (vote) => vote.candidate_id === candidate.id
+    );
+
+    if (existingVoteIndex !== -1) {
+      // If the vote exists, remove it from the votes array
+      const updatedVotes = [...votes];
+      updatedVotes.splice(existingVoteIndex, 1);
+      setVotes(updatedVotes);
+    } else {
+      // If the vote does not exist, add it to the votes array
+      setVotes([
+        ...votes,
+        {
+          election_id: candidate.election_id as number,
+          candidate_id: candidate.id as number,
+          position_id: candidate.position_id as number,
+        },
+      ]);
+    }
   }
+
   console.log(votes);
 
   return (
@@ -61,7 +75,11 @@ export default function CandidateCard({ candidate }: Props) {
       </div>
 
       <div className="border-2 h-[70px] w-[70px] ml-auto">
-        <input className="h-full w-full" type="checkbox" />
+        <input
+          onClick={handleClicked}
+          className="h-full w-full"
+          type="checkbox"
+        />
       </div>
     </div>
   );

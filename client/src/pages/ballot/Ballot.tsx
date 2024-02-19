@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { myFetch } from "../../utilities/myFetch";
 import { serverUrl } from "../../utilities/Constants";
 import CandidateCard from "./components/CandidateCard";
+import toast from "react-hot-toast";
 
 type BallotContextType = {
   votes: VoteType[];
@@ -32,12 +33,12 @@ export default function Ballot() {
   useEffect(() => {
     async function getData() {
       try {
-        // const electionData = await myFetch(`${serverUrl}/elections/${eid}`);
-        // const positionsData = await myFetch(`${serverUrl}/positions/${eid}`);
-        // const candidatesData = await myFetch(`${serverUrl}/candidates/${eid}`);
-        // setElection(electionData);
-        // setPositions(positionsData);
-        // setCandidates(candidatesData);
+        const electionData = await myFetch(`${serverUrl}/elections/${eid}`);
+        const positionsData = await myFetch(`${serverUrl}/positions/${eid}`);
+        const candidatesData = await myFetch(`${serverUrl}/candidates/${eid}`);
+        setElection(electionData);
+        setPositions(positionsData);
+        setCandidates(candidatesData);
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
@@ -48,11 +49,34 @@ export default function Ballot() {
     getData();
   }, [eid]);
 
-  console.log("hello", eid);
+  async function handleSubmitBallot(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      if (votes.length < 1) {
+        toast.error(
+          "Please vote for at least one candidate before submitting ballot"
+        );
+
+        return;
+      }
+
+      const res = await myFetch.post(`${serverUrl}/votes`, votes);
+      toast.success(res);
+
+      navigate(`/vote`);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    }
+  }
 
   return (
     <BallotContext.Provider value={{ votes, setVotes }}>
-      <form className="min-h-screen bg-yellow-200">
+      <form
+        className="min-h-screen bg-yellow-200"
+        onSubmit={(e) => handleSubmitBallot(e)}
+      >
         <nav className="bg-yellow-800 p-4 text-white">
           <button
             className="absolute"
