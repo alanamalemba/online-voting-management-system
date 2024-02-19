@@ -3,6 +3,20 @@ const { candidates } = require("../models");
 
 const router = express.Router();
 
+router.get("/:eid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const candidatesList = await candidates.findAll({
+      where: { election_id: eid },
+    });
+
+    res.json(candidatesList);
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: "Internal Server Error!" });
+  }
+});
+
 router.get("/:uid/:eid", async (req, res) => {
   try {
     const candidate = await candidates.findOne({

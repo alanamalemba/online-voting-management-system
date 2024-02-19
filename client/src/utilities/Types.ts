@@ -54,4 +54,12 @@ export type CandidateType = {
   election_id?: number;
   position_id?: number;
   manifesto?: string;
+  photo_url?: string;
+};
+
+export type VoteType = {
+  id?: number;
+  election_id: number;
+  position_id: number;
+  candidate_id: number;
 };

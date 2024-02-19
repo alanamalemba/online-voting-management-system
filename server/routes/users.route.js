@@ -20,4 +20,16 @@ router.get("/:email", async (req, res) => {
   }
 });
 
+router.get("/byId/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+    const user = await users.findByPk(uid);
+
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: "Internal Server Error!" });
+  }
+});
+
 module.exports = router;
