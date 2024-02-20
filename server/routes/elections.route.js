@@ -1,5 +1,10 @@
 const express = require("express");
-const { elections, positions, voter_applications } = require("../models");
+const {
+  elections,
+  positions,
+  voter_applications,
+  voters,
+} = require("../models");
 const { Op, where } = require("sequelize");
 
 const router = express.Router();
@@ -50,17 +55,17 @@ router.get("/:id", async (req, res) => {
 router.get("/vote/:uid", async (req, res) => {
   try {
     const uid = req.params.uid;
-    const acceptedApplications = await voter_applications.findAll({
-      where: { user_id: uid, status: "accepted" },
+    //find all voters with this uid who have not voted
+    const votersList = await voters.findAll({
+      where: { user_id: uid, voted: false },
     });
 
-    console.log(acceptedApplications);
-
-    const electionPromises = acceptedApplications.map(async (application) => {
-      return await elections.findByPk(application.election_id);
-    });
-
-    const electionsList = await Promise.all(electionPromises);
+    // get the elections these voter(s) are registered in
+    const electionsList = await Promise.all(
+      votersList.map(async (voter) => {
+        return await elections.findByPk(voter.election_id);
+      })
+    );
 
     res.json(electionsList);
   } catch (error) {

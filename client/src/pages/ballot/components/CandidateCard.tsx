@@ -55,8 +55,6 @@ export default function CandidateCard({ candidate }: Props) {
     }
   }
 
-  console.log(votes);
-
   return (
     <div className="p-4 border-2 border-black rounded flex gap-[80px] items-center ">
       <div className="w-[200px] h-[200px]">

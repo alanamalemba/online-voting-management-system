@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   CandidateType,
   ElectionType,
@@ -10,6 +10,7 @@ import { myFetch } from "../../utilities/myFetch";
 import { serverUrl } from "../../utilities/Constants";
 import CandidateCard from "./components/CandidateCard";
 import toast from "react-hot-toast";
+import { UserContext } from "../../context/UserContext";
 
 type BallotContextType = {
   votes: VoteType[];
@@ -29,6 +30,7 @@ export default function Ballot() {
 
   const { eid } = useParams();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     async function getData() {
@@ -61,6 +63,12 @@ export default function Ballot() {
       }
 
       const res = await myFetch.post(`${serverUrl}/votes`, votes);
+      const votedRes = await myFetch.post(`${serverUrl}/voters/voted`, {
+        uid: user?.id,
+        eid: eid,
+      });
+      console.log(votedRes);
+
       toast.success(res);
 
       navigate(`/vote`);
