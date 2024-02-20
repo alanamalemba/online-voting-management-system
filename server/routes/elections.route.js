@@ -74,6 +74,30 @@ router.get("/vote/:uid", async (req, res) => {
   }
 });
 
+//get all election in which this user(voter) is registered in
+//and voted in
+router.get("/results/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+    //find all voters with this uid who have voted
+    const votersList = await voters.findAll({
+      where: { user_id: uid, voted: true },
+    });
+
+    // get the elections these voter(s) are registered in
+    const electionsList = await Promise.all(
+      votersList.map(async (voter) => {
+        return await elections.findByPk(voter.election_id);
+      })
+    );
+
+    res.json(electionsList);
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: "Internal server Error!" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const election = req.body;

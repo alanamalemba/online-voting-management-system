@@ -18,12 +18,12 @@ export default function Home() {
             Please select an action below to get started.
           </p>
 
-          <Link
+          <a
             className="bg-yellow-400 w-fit p-2 rounded font-semibold text-sm "
-            to={`/`}
+            href="https://wa.me/254719146076"
           >
             Contact Support
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -31,35 +31,35 @@ export default function Home() {
         <nav className="max-w-[1000px] text-center m-auto p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-semibold">
           <Link
             to={`/upcoming-elections`}
-            className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
+            className=" bg-yellow-50 hover:scale-105 duration-300 p-2 h-[170px] rounded shadow-lg flex justify-center items-center "
           >
             View upcoming elections
           </Link>
 
           <Link
             to={`/vote`}
-            className=" bg-yellow-50 hover:scale-105 duration-300  p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
+            className=" bg-yellow-50 hover:scale-105 duration-300 p-2 h-[170px] rounded shadow-lg flex justify-center items-center "
           >
             Vote in elections you are registered in
           </Link>
 
           <Link
-            to={`/`}
-            className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
+            to={`/election-results`}
+            className=" bg-yellow-50 hover:scale-105 duration-300 p-2 h-[170px] rounded shadow-lg flex justify-center items-center "
           >
             View election results
           </Link>
 
           <Link
             to={`/manage-and-create-elections/create-election`}
-            className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
+            className=" bg-yellow-50 hover:scale-105 duration-300 p-2 h-[170px] rounded shadow-lg flex justify-center items-center "
           >
             Manage and Create Elections
           </Link>
 
           <Link
             to={`/`}
-            className=" bg-yellow-50 hover:scale-105 duration-300 p-1 h-[170px] rounded shadow-lg flex justify-center items-center"
+            className=" bg-yellow-50 hover:scale-105 duration-300 p-2 h-[170px] rounded shadow-lg flex justify-center items-center "
           >
             Manage my Account
           </Link>

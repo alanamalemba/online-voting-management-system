@@ -18,6 +18,7 @@ import VoterApplications from "./pages/manageAndCreateElections/components/manag
 import ElectionsList from "./pages/manageAndCreateElections/components/manageElections/components/ElectionsList";
 import Vote from "./pages/vote/Vote";
 import Ballot from "./pages/ballot/Ballot";
+import ElectionResults from "./pages/electionResults/ElectionResults";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -35,6 +36,7 @@ export default function App() {
 
             <Route path="/vote" element={<Vote />} />
             <Route path="/vote/ballot/:eid" element={<Ballot />} />
+            <Route path="/election-results" element={<ElectionResults />} />
 
             <Route
               path="/manage-and-create-elections"
