@@ -1,9 +1,55 @@
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo1.png";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { serverUrl } from "../../../utilities/constants";
 
-export default function Login() {
+type Props = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Login({ setIsLoggedIn }: Props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${serverUrl}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.status === "error") {
+        throw new Error(result.message);
+      }
+
+      console.log(result);
+      localStorage.setItem("user", JSON.stringify(result));
+
+      toast.success(`Successfully logged in as ${email}!`);
+      setIsLoggedIn(true);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        toast.error(error.message);
+      }
+    }
+  }
+
   return (
-    <form className=" w-[40%] lg:w-[30%] mx-auto h-full flex flex-col justify-center gap-6">
+    <form
+      className=" w-[40%] lg:w-[30%] mx-auto h-full flex flex-col justify-center gap-6"
+      onSubmit={(e) => handleLogin(e)}
+    >
       <img className=" h-[50px] w-[200px] object-cover " src={logo} alt="" />
 
       <h1 className="text-3xl font-bold"> Login to your account</h1>
@@ -12,9 +58,11 @@ export default function Login() {
         <span className="font-medium">Email Address</span>
         <input
           className="border-2 p-2 rounded-md"
-          type="text"
-          placeholder="e.g. John Doe"
+          type="email"
+          placeholder="e.g. johndoe@mail.com"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </label>
 
@@ -26,6 +74,8 @@ export default function Login() {
           placeholder="e.g. ComplexPassword#&936"
           minLength={6}
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </label>
 
