@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo1.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { serverUrl } from "../../../utilities/constants";
 import toast from "react-hot-toast";
+import { UserContext } from "../../../context/UserContextProvider";
 
-type Props = {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export default function SignUp() {
+  const { setIsLoggedIn } = useContext(UserContext);
 
-export default function SignUp({ setIsLoggedIn }: Props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

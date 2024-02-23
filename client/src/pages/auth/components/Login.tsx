@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logo1.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../../utilities/constants";
+import { UserContext } from "../../../context/UserContextProvider";
 
-type Props = {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export default function Login() {
+  const { setIsLoggedIn } = useContext(UserContext);
 
-export default function Login({ setIsLoggedIn }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
