@@ -30,7 +30,6 @@ export default function UserContextProvider({ children }: Props) {
     }
   }, [isLoggedIn]);
 
-  console.log(isLoggedIn);
   return (
     <UserContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
       {children}
