@@ -1,6 +1,6 @@
 const express = require("express");
 const upload = require("../middleware/upload");
-const { elections } = require("../models");
+const { elections, positions } = require("../models");
 
 const router = express.Router();
 
@@ -9,14 +9,23 @@ router.post("/", upload.single("file"), async (req, res) => {
   try {
     // Accessing the file path
     const filePath = req.file.path;
-    const { name, startDate, endDate } = req.body;
+    const { name, startDate, endDate, positionsList } = req.body;
 
-    await elections.create({
+    const election = await elections.create({
       name: name,
       start_date: startDate,
       end_date: endDate,
       photo_url: filePath,
     });
+
+    // Create positions in batch
+    const positionsArray = JSON.parse(positionsList);
+    const positionsData = positionsArray.map((position) => ({
+      name: position,
+      election_id: election.id,
+    }));
+
+    await positions.bulkCreate(positionsData);
 
     res.json({
       success: { message: `Election '${name}' created successfully!` },

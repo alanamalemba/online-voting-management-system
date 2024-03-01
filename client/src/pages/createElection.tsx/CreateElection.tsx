@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { serverUrl } from "../../utilities/constants";
 import toast from "react-hot-toast";
 
@@ -6,17 +6,28 @@ export default function CreateElection() {
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [photo, setPhoto] = useState<File>();
+  const [positions, setPositions] = useState<string[]>([]);
+  const [currentPosition, setCurrentPosition] = useState("");
+
+  const [photo, setPhoto] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     try {
+      if (positions.length < 1) {
+        toast.error("Please add at least one position to be vied for!");
+        return;
+      }
+
       const formData = new FormData();
 
       formData.append("file", photo as File);
       formData.append("name", name);
       formData.append("startDate", new Date(startDate).toISOString());
       formData.append("endDate", new Date(endDate).toISOString());
+      formData.append("positionsList", JSON.stringify(positions));
 
       const response = await fetch(`${serverUrl}/elections`, {
         method: "POST",
@@ -29,16 +40,25 @@ export default function CreateElection() {
       }
 
       toast.success(result.success.message);
+      setName("");
+      setStartDate("");
+      setEndDate("");
+      setPositions([]);
+      setName("");
+      setPhoto(null);
+      // Reset file input value
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
-      if (error instanceof Error) console.error(error.message);
+      if (error instanceof Error) {
+        console.error(error.message);
+        toast.error(error.message);
+      }
     }
   }
 
-  // console.log("2024-02-10T01:01", "user date");
-  // console.log(new Date("2024-02-10T01:01"), "new Date");
-  // console.log(new Date("2024-02-10T01:01").toISOString(), "iso string");
-  // const iso = new Date("2024-02-10T01:01").toISOString();
-  // console.log(new Date(iso), "iso to new date");
+  const currentDate = new Date();
 
   return (
     <div className=" grow">
@@ -66,6 +86,7 @@ export default function CreateElection() {
             type="datetime-local"
             required
             value={startDate}
+            min={currentDate.toISOString().slice(0, 16)}
             onChange={(e) => setStartDate(e.target.value)}
           />
         </label>
@@ -77,20 +98,68 @@ export default function CreateElection() {
             type="datetime-local"
             required
             value={endDate}
+            min={
+              startDate
+                ? new Date(startDate).toISOString().slice(0, 16)
+                : currentDate.toISOString().slice(0, 16)
+            }
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
+
+        <div className="border rounded p-1">
+          <label className=" flex flex-col gap-1">
+            <p className="font-medium">Enter a position to be vied for</p>
+
+            <div className=" flex gap-1 ">
+              <input
+                className="p-2 border rounded-md grow"
+                type="text"
+                placeholder="e.g. President"
+                value={currentPosition}
+                onChange={(e) => setCurrentPosition(e.target.value)}
+              />
+
+              <button
+                className="p-2 font-bold border rounded shadow w-[40px] h-[40px] active:scale-90"
+                type="button"
+                onClick={() => {
+                  if (!currentPosition) return;
+                  setPositions([...positions, currentPosition]);
+                  setCurrentPosition("");
+                }}
+              >
+                +
+              </button>
+            </div>
+          </label>
+
+          <div className="p-1">
+            <p className="font-light text-lg">Positions</p>
+            {positions.length === 0 && (
+              <p className="italic text-sm font-thin">
+                Positions you add will appear here
+              </p>
+            )}
+            {positions.map((position, index) => (
+              <p key={index} className="italic">
+                {position}
+              </p>
+            ))}
+          </div>
+        </div>
 
         <label className=" flex flex-col gap-1">
           <p className="font-medium">
             Select election photo (recommended aspect ratio: 4:3)
           </p>
           <input
+            ref={fileInputRef}
             className="p-2 border rounded-md"
             type="file"
             accept="image/*"
             required
-            onChange={(e) => setPhoto(e.target.files?.[0])}
+            onChange={(e) => setPhoto(e.target.files?.[0] as File)}
           />
         </label>
 

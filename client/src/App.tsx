@@ -8,6 +8,7 @@ import { UserContext } from "./context/UserContextProvider";
 import Home from "./pages/home/Home";
 import DefaultPage from "./pages/defaultPage/DefaultPage";
 import CreateElection from "./pages/createElection.tsx/CreateElection";
+import ManageUserRoles from "./pages/manageuserRoles/ManageUserRoles";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/" element={<Home />}>
               <Route index element={<DefaultPage />} />
               <Route path="/create-election" element={<CreateElection />} />
+              <Route path="/manage-user-roles" element={<ManageUserRoles />} />
             </Route>
             <Route path="*" element={<Navigate to={`/`} />} />
           </Routes>

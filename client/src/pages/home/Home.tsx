@@ -61,7 +61,7 @@ export default function Home() {
 
         <NavLink
           className="hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
-          to={`/manage-elections`}
+          to={`/manage-user-roles`}
         >
           Manage user roles
         </NavLink>
@@ -69,7 +69,7 @@ export default function Home() {
         <hr />
 
         <button
-          className=" text-left py-3 px-4 rounded-md mx-4"
+          className=" hover:bg-indigo-100  text-left py-3 px-4 rounded-md mx-4"
           onClick={handleLogout}
         >
           Logout
