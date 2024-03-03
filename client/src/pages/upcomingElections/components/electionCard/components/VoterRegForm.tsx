@@ -1,43 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ElectionType, PositionType } from "../../../../../utilities/Types";
+import React, { useContext, useState } from "react";
+import { ElectionType } from "../../../../../utilities/Types";
 import { serverUrl } from "../../../../../utilities/constants";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../../../context/UserContextProvider";
 
 type Props = {
-  setIsShowCandidateForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowVoterForm: React.Dispatch<React.SetStateAction<boolean>>;
   election: ElectionType;
 };
 
-export default function CandidateRegForm({
-  election,
-  setIsShowCandidateForm,
-}: Props) {
+export default function VoterRegForm({ election, setIsShowVoterForm }: Props) {
   const { user } = useContext(UserContext);
 
-  const [positions, setPositions] = useState<PositionType[]>([]);
-  const [pickedPosition, setPickedPosition] = useState("");
   const [regNumber, setRegNumber] = useState("");
   const [passPhoto, setPassPhoto] = useState<File | null>(null);
   const [idPhoto, setIdPhoto] = useState<File | null>(null);
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const response = await fetch(
-          `${serverUrl}/positions/election/${election.id}`
-        );
-        const result = await response.json();
-        setPositions(result.success.data);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-      }
-    }
-
-    getData();
-  }, [election.id]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,10 +27,9 @@ export default function CandidateRegForm({
       formData.append("idPhoto", idPhoto as File);
       formData.append("studentId", regNumber);
       formData.append("electionId", election.id.toString());
-      formData.append("positionId", pickedPosition);
 
       const response = await fetch(
-        `${serverUrl}/candidate_applications/submit-application`,
+        `${serverUrl}/voter_applications/submit-application`,
         {
           method: "POST",
           body: formData,
@@ -63,7 +39,7 @@ export default function CandidateRegForm({
       const result = await response.json();
       console.log(result);
       toast.success(result.success.message);
-      setIsShowCandidateForm(false);
+      setIsShowVoterForm(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -78,7 +54,7 @@ export default function CandidateRegForm({
         onSubmit={(e) => handleSubmit(e)}
       >
         <p className="text-3xl text-center font-semibold">
-          {election.name} Candidate Registration
+          {election.name} Voter Registration
         </p>
 
         <hr className="border-slate-300" />
@@ -119,30 +95,10 @@ export default function CandidateRegForm({
           />
         </label>
 
-        <label className="font-medium">
-          <p>Select position you want to vie for</p>
-
-          <select
-            className="border p-3 w-full rounded border-black"
-            value={pickedPosition}
-            onChange={(e) => setPickedPosition(e.target.value)}
-            required
-          >
-            <option value="" disabled defaultValue={``}>
-              pick a position
-            </option>
-            {positions.map((position) => (
-              <option key={position.id} value={position.id}>
-                {position.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
         <div className="flex mt-4 gap-2 justify-between font-medium">
           <button
             className="border border-black p-2 rounded w-1/2"
-            onClick={() => setIsShowCandidateForm(false)}
+            onClick={() => setIsShowVoterForm(false)}
             type="button"
           >
             Cancel

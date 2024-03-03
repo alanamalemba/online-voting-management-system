@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ElectionType } from "../../../../utilities/Types";
 import { serverUrl } from "../../../../utilities/constants";
 import CandidateRegForm from "./components/CandidateRegForm";
+import VoterRegForm from "./components/VoterRegForm";
 
 type Props = {
   election: ElectionType;
@@ -10,6 +11,7 @@ type Props = {
 export default function ElectionCard({ election }: Props) {
   const [isShowActions, setIsShowActions] = useState(false);
   const [isShowCandidateForm, setIsShowCandidateForm] = useState(false);
+  const [isShowVoterForm, setIsShowVoterForm] = useState(false);
 
   const startDate = new Date(election.start_date).toString();
   const endDate = new Date(election.end_date).toString();
@@ -42,7 +44,10 @@ export default function ElectionCard({ election }: Props) {
             isShowActions ? "opacity-100" : "opacity-0"
           } flex flex-col justify-evenly absolute bg-indigo-500 top-0 bottom-0 overflow-hidden left-0 right-0 bg-opacity-50 duration-300`}
         >
-          <button className="bg-white w-3/4 mx-auto p-2 rounded  shadow-md font-medium border-2 border-indigo-800 text-indigo-800 hover:scale-105 duration-300 ">
+          <button
+            className="bg-white w-3/4 mx-auto p-2 rounded  shadow-md font-medium border-2 border-indigo-800 text-indigo-800 hover:scale-105 duration-300 "
+            onClick={() => setIsShowVoterForm(true)}
+          >
             Register as Voter
           </button>
 
@@ -58,6 +63,13 @@ export default function ElectionCard({ election }: Props) {
         <CandidateRegForm
           election={election}
           setIsShowCandidateForm={setIsShowCandidateForm}
+        />
+      )}
+
+      {isShowVoterForm && (
+        <VoterRegForm
+          election={election}
+          setIsShowVoterForm={setIsShowVoterForm}
         />
       )}
     </>
