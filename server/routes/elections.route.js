@@ -36,4 +36,15 @@ router.post("/", upload.single("file"), async (req, res) => {
   }
 });
 
+//get all elections
+router.get("/", upload.single("file"), async (req, res) => {
+  try {
+    const electionsList = await elections.findAll();
+    res.json({ success: { data: electionsList } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
 module.exports = router;

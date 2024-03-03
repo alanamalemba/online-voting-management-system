@@ -37,7 +37,7 @@ export default function ManageUserRoles() {
         <button className="p-2 border rounded-full w-[40px] h-[40px]">S</button>
       </form>
 
-      <div className="mx-6 grid grid-cols-2 gap-2 mb-2">
+      <div className="mx-6 grid grid-cols-2 gap-4 mb-2">
         {users.map((user) => (
           <UserCard key={user.id} user={user} />
         ))}
