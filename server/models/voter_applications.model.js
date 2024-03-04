@@ -5,5 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     id_photo_url: { type: DataTypes.STRING, allowNull: false },
     student_id: { type: DataTypes.STRING, allowNull: false },
     election_id: { type: DataTypes.INTEGER, allowNull: false },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "pending",
+    },
   });
 };

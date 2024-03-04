@@ -1,17 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ElectionType, PositionType } from "../../../../../utilities/Types";
+import {
+  CandidateApplicationType,
+  ElectionType,
+  PositionType,
+} from "../../../../../utilities/Types";
 import { serverUrl } from "../../../../../utilities/constants";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../../../context/UserContextProvider";
 
 type Props = {
   setIsShowCandidateForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setCandidateApplication: React.Dispatch<
+    React.SetStateAction<CandidateApplicationType | undefined>
+  >;
   election: ElectionType;
 };
 
 export default function CandidateRegForm({
   election,
   setIsShowCandidateForm,
+  setCandidateApplication,
 }: Props) {
   const { user } = useContext(UserContext);
 
@@ -63,6 +71,7 @@ export default function CandidateRegForm({
       const result = await response.json();
       console.log(result);
       toast.success(result.success.message);
+      setCandidateApplication(result.success.data);
       setIsShowCandidateForm(false);
     } catch (error) {
       if (error instanceof Error) {

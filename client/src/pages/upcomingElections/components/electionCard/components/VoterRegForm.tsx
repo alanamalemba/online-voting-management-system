@@ -1,15 +1,25 @@
 import React, { useContext, useState } from "react";
-import { ElectionType } from "../../../../../utilities/Types";
+import {
+  ElectionType,
+  VoterApplicationType,
+} from "../../../../../utilities/Types";
 import { serverUrl } from "../../../../../utilities/constants";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../../../context/UserContextProvider";
 
 type Props = {
   setIsShowVoterForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setVoterApplication: React.Dispatch<
+    React.SetStateAction<VoterApplicationType | undefined>
+  >;
   election: ElectionType;
 };
 
-export default function VoterRegForm({ election, setIsShowVoterForm }: Props) {
+export default function VoterRegForm({
+  election,
+  setIsShowVoterForm,
+  setVoterApplication,
+}: Props) {
   const { user } = useContext(UserContext);
 
   const [regNumber, setRegNumber] = useState("");
@@ -39,6 +49,7 @@ export default function VoterRegForm({ election, setIsShowVoterForm }: Props) {
       const result = await response.json();
       console.log(result);
       toast.success(result.success.message);
+      setVoterApplication(result.success.data);
       setIsShowVoterForm(false);
     } catch (error) {
       if (error instanceof Error) {

@@ -18,7 +18,7 @@ router.post(
 
       // Access other form data if needed
       const { userId, studentId, electionId, positionId } = req.body;
-      await candidate_applications.create({
+      const application = await candidate_applications.create({
         user_id: userId,
         passport_photo_url: passPhotoPath,
         id_photo_url: idPhotoPath,
@@ -28,7 +28,10 @@ router.post(
       });
 
       res.json({
-        success: { message: "Candidate application submitted successfully!" },
+        success: {
+          message: "Candidate application submitted successfully!",
+          data: application,
+        },
       });
     } catch (error) {
       console.log(error.message);
@@ -36,5 +39,21 @@ router.post(
     }
   }
 );
+
+// get a candidate application of this user id
+router.get("/application/:uid/:eid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+    const eid = req.params.eid;
+    const application = await candidate_applications.findOne({
+      where: { user_id: uid, election_id: eid },
+    });
+
+    res.json({ success: { data: application } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
 
 module.exports = router;

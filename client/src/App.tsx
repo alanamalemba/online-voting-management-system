@@ -10,6 +10,7 @@ import DefaultPage from "./pages/defaultPage/DefaultPage";
 import CreateElection from "./pages/createElection.tsx/CreateElection";
 import ManageUserRoles from "./pages/manageuserRoles/ManageUserRoles";
 import UpcomingElections from "./pages/upcomingElections/UpcomingElections";
+import ManageElections from "./pages/manageElections/ManageElections";
 
 export default function App() {
   const { isLoggedIn } = useContext(UserContext);
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/" element={<Home />}>
               <Route index element={<DefaultPage />} />
               <Route path="/create-election" element={<CreateElection />} />
+              <Route path="/manage-elections" element={<ManageElections />} />
               <Route
                 path="/upcoming-elections"
                 element={<UpcomingElections />}

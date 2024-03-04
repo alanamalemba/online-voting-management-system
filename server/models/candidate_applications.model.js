@@ -6,5 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     student_id: { type: DataTypes.STRING, allowNull: false },
     election_id: { type: DataTypes.INTEGER, allowNull: false },
     position_id: { type: DataTypes.INTEGER, allowNull: false },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "pending",
+    },
   });
 };
