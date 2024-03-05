@@ -78,15 +78,33 @@ export default function ElectionCard({ election }: Props) {
           </p>
         </div>
 
+        {/* application status display */}
         <div className="absolute top-1 right-1 flex flex-col gap-1 w-2/3 text-sm ">
           {candidateApplication && (
-            <p className="bg-green-500 bg-opacity-70 text-white font-medium p-1 rounded">
+            <p
+              className={`${
+                candidateApplication.status === "accepted"
+                  ? "bg-green-500"
+                  : candidateApplication.status === "rejected"
+                  ? "bg-red-500"
+                  : "bg-blue-500"
+              } bg-opacity-70 text-white font-medium p-1 rounded`}
+            >
               Candidate application: {candidateApplication?.status}
             </p>
           )}
 
           {voterApplication && (
-            <p className="bg-green-500 bg-opacity-70 text-white font-medium p-1 rounded">
+            <p
+              className={`${
+                voterApplication.status === "accepted"
+                  ? "bg-green-500"
+                  : voterApplication.status === "rejected"
+                  ? "bg-red-500"
+                  : "bg-blue-500"
+              } bg-opacity-70 text-white font-medium p-1 rounded`}
+            >
+              {" "}
               Voter application: {voterApplication?.status}
             </p>
           )}

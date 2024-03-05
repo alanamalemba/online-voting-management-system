@@ -18,6 +18,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+// get user with this uid
+router.get("/user/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+    const user = await users.findByPk(uid);
+
+    res.json({ success: { data: user } });
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
 // update user role
 router.patch("/update-role", async (req, res) => {
   try {

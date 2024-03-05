@@ -29,7 +29,7 @@ export type CandidateApplicationType = {
   student_id: string;
   election_id: number;
   position_id: number;
-  status: string;
+  status: "pending" | "accepted" | "rejected";
 };
 
 export type VoterApplicationType = {
@@ -39,5 +39,13 @@ export type VoterApplicationType = {
   id_photo_url: string;
   student_id: string;
   election_id: number;
-  status: string;
+  status: "pending" | "accepted" | "rejected";
+};
+
+export type ResultType = {
+  success: {
+    data: object;
+    message: string;
+  };
+  error: { message: string };
 };

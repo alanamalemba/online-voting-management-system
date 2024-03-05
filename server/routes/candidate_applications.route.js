@@ -1,5 +1,5 @@
 const express = require("express");
-const { candidate_applications } = require("../models");
+const { candidate_applications, candidates } = require("../models");
 const upload = require("../middleware/upload");
 
 const router = express.Router();
@@ -40,7 +40,7 @@ router.post(
   }
 );
 
-// get a candidate application of this user id
+// get a candidate application of this user id in this eid
 router.get("/application/:uid/:eid", async (req, res) => {
   try {
     const uid = req.params.uid;
@@ -50,6 +50,49 @@ router.get("/application/:uid/:eid", async (req, res) => {
     });
 
     res.json({ success: { data: application } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+// get all candidate applications where status is pending for this election
+router.get("/status-pending/:eid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    console.log("Election ID: ", eid);
+    const applicationsList = await candidate_applications.findAll({
+      where: { status: "pending", election_id: eid },
+    });
+
+    res.json({ success: { data: applicationsList } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
+// update application status
+router.patch("/update-status", async (req, res) => {
+  try {
+    const request = req.body;
+
+    if (request.status === "accepted") {
+      await candidates.create({
+        user_id: request.uid,
+        election_id: request.eid,
+        passport_photo_url: request.photoUrl,
+      });
+    }
+
+    await candidate_applications.update(
+      { status: request.status },
+      { where: { id: request.aid } }
+    );
+
+    res.json({
+      success: { message: `Application ${request.status} successfully!` },
+    });
   } catch (error) {
     console.log(error.message);
     res.json({ error: { message: "Internal Server Error" } });

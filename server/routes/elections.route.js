@@ -47,4 +47,16 @@ router.get("/", upload.single("file"), async (req, res) => {
   }
 });
 
+//get election with this eid
+router.get("/election/:eid", upload.single("file"), async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const election = await elections.findByPk(eid);
+    res.json({ success: { data: election } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
 module.exports = router;

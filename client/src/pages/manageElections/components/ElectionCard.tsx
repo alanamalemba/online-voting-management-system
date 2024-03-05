@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ElectionType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/constants";
 
@@ -28,7 +29,23 @@ export default function ElectionCard({ election }: Props) {
           </p>
         </div>
 
-        <div></div>
+        <div className="flex flex-col p-1">
+          <button className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium">
+            Edit Election
+          </button>
+          <Link
+            className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
+            to={`candidate-applications/${election.id}`}
+          >
+            Candidate Applications
+          </Link>
+          <Link
+            className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
+            to={`voter-applications/${election.id}`}
+          >
+            Voter Applications
+          </Link>
+        </div>
       </div>
     </>
   );
