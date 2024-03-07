@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { UserType } from "../utilities/Types";
 
 type Props = {
@@ -7,31 +7,21 @@ type Props = {
 
 type UserContextType = {
   user: UserType | null;
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 };
 
 export const UserContext = createContext<UserContextType>({
   user: null,
-  isLoggedIn: false,
-  setIsLoggedIn: () => {},
+  setUser: () => {},
 });
 
 export default function UserContextProvider({ children }: Props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(() =>
-    Boolean(localStorage.getItem("user"))
+  const [user, setUser] = useState<UserType | null>(
+    JSON.parse(localStorage.getItem("user") as string)
   );
 
-  const [user, setUser] = useState<UserType | null>(null);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setUser(JSON.parse(localStorage.getItem("user") as string));
-    }
-  }, [isLoggedIn]);
-
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

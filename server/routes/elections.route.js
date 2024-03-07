@@ -1,6 +1,7 @@
 const express = require("express");
+const { Op } = require("sequelize");
 const upload = require("../middleware/upload");
-const { elections, positions } = require("../models");
+const { elections, positions, voters } = require("../models");
 
 const router = express.Router();
 
@@ -37,7 +38,7 @@ router.post("/", upload.single("file"), async (req, res) => {
 });
 
 //get all elections
-router.get("/", upload.single("file"), async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const electionsList = await elections.findAll();
     res.json({ success: { data: electionsList } });
@@ -48,11 +49,34 @@ router.get("/", upload.single("file"), async (req, res) => {
 });
 
 //get election with this eid
-router.get("/election/:eid", upload.single("file"), async (req, res) => {
+router.get("/election/:eid", async (req, res) => {
   try {
     const eid = req.params.eid;
     const election = await elections.findByPk(eid);
     res.json({ success: { data: election } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
+//get all elections of a user that user with this id is
+// registered in
+router.get("/user-registered/:uid", async (req, res) => {
+  try {
+    const uid = req.params.uid;
+
+    const votersList = await voters.findAll({
+      where: { user_id: uid },
+    });
+
+    const idList = votersList.map((voter) => voter.election_id);
+
+    const electionsList = await elections.findAll({
+      where: { id: { [Op.in]: idList } },
+    });
+
+    res.json({ success: { data: electionsList } });
   } catch (error) {
     console.error(error.message);
     res.json({ error: { message: "Internal Server Error!" } });

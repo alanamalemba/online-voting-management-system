@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { UserContext } from "../../../context/UserContextProvider";
 
 export default function SignUp() {
-  const { setIsLoggedIn } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -39,8 +39,8 @@ export default function SignUp() {
       console.log(result);
       localStorage.setItem("user", JSON.stringify(result));
 
+      setUser(result);
       toast.success(`Account for ${email}  created successfully!`);
-      setIsLoggedIn(true);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -127,7 +127,7 @@ export default function SignUp() {
       <div className="p-4 border-t-2 flex justify-center gap-2 text-sm">
         Already have an account?{" "}
         <Link to={`/`} className="text-primaryColor">
-          Sign up here
+          Login here
         </Link>
       </div>
     </form>

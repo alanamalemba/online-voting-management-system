@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserCard from "./components/UserCard";
 import { UserType } from "../../utilities/Types";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/constants";
+import { UserContext } from "../../context/UserContextProvider";
 
 export default function ManageUserRoles() {
+  const { user } = useContext(UserContext);
   const [users, setUsers] = useState<UserType[]>([]);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,7 +16,11 @@ export default function ManageUserRoles() {
       try {
         const response = await fetch(`${serverUrl}/users`);
         const result = await response.json();
-        setUsers(result.success.data);
+        setUsers(
+          result.success.data.filter(
+            (element: UserType) => element.email !== user?.email
+          )
+        );
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

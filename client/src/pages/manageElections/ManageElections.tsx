@@ -13,7 +13,6 @@ export default function ManageElections() {
         const response = await fetch(`${serverUrl}/elections`);
         const result = await response.json();
 
-        console.log(result);
         setElections(result.success.data);
       } catch (error) {
         if (error instanceof Error) {

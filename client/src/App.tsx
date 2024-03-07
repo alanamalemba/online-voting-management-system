@@ -13,19 +13,21 @@ import UpcomingElections from "./pages/upcomingElections/UpcomingElections";
 import ManageElections from "./pages/manageElections/ManageElections";
 import CandidateApplications from "./pages/candidateApplications/CandidateApplications";
 import VoterApplications from "./pages/voterApplications/VoterApplications";
+import Vote from "./pages/vote/Vote";
 
 export default function App() {
-  const { isLoggedIn } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <main className=" min-h-screen bg-indigo-50 pb-6">
-      {isLoggedIn ? (
+      {user ? (
         <>
           <Header />
           <Routes>
             <Route path="/" element={<Home />}>
               <Route index element={<DefaultPage />} />
               <Route path="/create-election" element={<CreateElection />} />
+              <Route path="/vote" element={<Vote />} />
 
               <Route path="/manage-elections" element={<ManageElections />} />
               <Route

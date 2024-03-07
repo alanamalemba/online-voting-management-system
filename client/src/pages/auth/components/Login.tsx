@@ -6,7 +6,7 @@ import { serverUrl } from "../../../utilities/constants";
 import { UserContext } from "../../../context/UserContextProvider";
 
 export default function Login() {
-  const { setIsLoggedIn } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,9 +33,9 @@ export default function Login() {
 
       console.log(result);
       localStorage.setItem("user", JSON.stringify(result));
+      setUser(result);
 
       toast.success(`Successfully logged in as ${email}!`);
-      setIsLoggedIn(true);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

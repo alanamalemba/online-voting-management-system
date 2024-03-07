@@ -44,7 +44,7 @@ export type VoterApplicationType = {
 
 export type ResultType = {
   success: {
-    data: object;
+    data: any;
     message: string;
   };
   error: { message: string };

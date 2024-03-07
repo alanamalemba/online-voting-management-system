@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { ElectionType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/constants";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContextProvider";
 
 type Props = {
   election: ElectionType;
 };
 
 export default function ElectionCard({ election }: Props) {
+  const { user } = useContext(UserContext);
+
   const startDate = new Date(election.start_date).toString();
   const endDate = new Date(election.end_date).toString();
 
@@ -30,21 +34,29 @@ export default function ElectionCard({ election }: Props) {
         </div>
 
         <div className="flex flex-col p-1">
-          <button className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium">
-            Edit Election
-          </button>
-          <Link
-            className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
-            to={`candidate-applications/${election.id}`}
-          >
-            Candidate Applications
-          </Link>
-          <Link
-            className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
-            to={`voter-applications/${election.id}`}
-          >
-            Voter Applications
-          </Link>
+          {user?.role === "admin" && (
+            <button className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium">
+              Edit Election
+            </button>
+          )}
+
+          {user?.role === "candidate_registrar" && (
+            <Link
+              className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
+              to={`candidate-applications/${election.id}`}
+            >
+              Candidate Applications
+            </Link>
+          )}
+
+          {user?.role === "voter_registrar" && (
+            <Link
+              className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
+              to={`voter-applications/${election.id}`}
+            >
+              Voter Applications
+            </Link>
+          )}
         </div>
       </div>
     </>
