@@ -59,6 +59,8 @@ export default function CreateElection() {
   }
 
   const currentDate = new Date();
+  const currentOffset = currentDate.getTimezoneOffset();
+  currentDate.setMinutes(currentDate.getMinutes() - currentOffset + 2);
 
   return (
     <div className=" grow">
@@ -134,7 +136,7 @@ export default function CreateElection() {
             </div>
           </label>
 
-          <div className="p-1">
+          <div className="p-1 flex flex-col gap-2">
             <p className="font-light text-lg">Positions</p>
             {positions.length === 0 && (
               <p className="italic text-sm font-thin">
@@ -142,7 +144,10 @@ export default function CreateElection() {
               </p>
             )}
             {positions.map((position, index) => (
-              <p key={index} className="italic">
+              <p
+                key={index}
+                className="italic p-1 border bg-indigo-50 rounded-md shadow-md"
+              >
                 {position}
               </p>
             ))}

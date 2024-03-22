@@ -9,6 +9,7 @@ import CandidateRegForm from "./components/CandidateRegForm";
 import VoterRegForm from "./components/VoterRegForm";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../../context/UserContextProvider";
+import { getFormattedTime } from "../../../../utilities/getFormatedTime";
 
 type Props = {
   election: ElectionType;
@@ -16,6 +17,9 @@ type Props = {
 
 export default function ElectionCard({ election }: Props) {
   const { user } = useContext(UserContext);
+
+  const [isElectionStarted, setIsElectionStarted] = useState(false);
+  const [timeToStart, setTimeToStart] = useState<number | null>(null);
 
   const [isShowActions, setIsShowActions] = useState(false);
 
@@ -54,6 +58,28 @@ export default function ElectionCard({ election }: Props) {
 
     getData();
   }, [user?.id, election.id]);
+
+  useEffect(() => {
+    function getTimeToStart() {
+      const now = new Date().getTime();
+      const start = new Date(election.start_date).getTime();
+
+      if (now > start) {
+        setIsElectionStarted(true);
+        return;
+      }
+
+      setTimeToStart(start - now);
+    }
+
+    getTimeToStart();
+    const interval = setInterval(() => {
+      getTimeToStart();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [election.start_date]);
+
+  if (isElectionStarted) return;
 
   return (
     <>
@@ -108,6 +134,11 @@ export default function ElectionCard({ election }: Props) {
               Voter application: {voterApplication?.status}
             </p>
           )}
+
+          <div className="bg-indigo-500 p-2 italic text-xs  rounded bg-opacity-70 text-white font-medium">
+            <p>Application deadline in:</p>
+            <p>{getFormattedTime(timeToStart)}</p>
+          </div>
         </div>
 
         {!(voterApplication && candidateApplication) && (

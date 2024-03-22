@@ -88,19 +88,20 @@ export default function CandidateApplicationCard({ application }: Props) {
 
   return (
     <div className="border-2 border-slate-300 mx-2 p-2 rounded flex flex-col gap-2">
-      <div className="flex gap-2 font-medium">
-        <div className="">
+      <div className="flex gap-2 font-medium overflow-hidden">
+        <div className="w-1/2 flex flex-col">
           <p>Passport photo</p>
           <img
-            className="rounded"
+            className="rounded grow object-cover h-[300px] "
             src={`${serverUrl}/${application.passport_photo_url}`}
             alt=""
           />
         </div>
-        <div>
+
+        <div className="w-1/2 flex flex-col">
           <p>Student ID Photo</p>
           <img
-            className="rounded"
+            className="rounded grow object-cover h-[300px] "
             src={`${serverUrl}/${application.id_photo_url}`}
             alt=""
           />

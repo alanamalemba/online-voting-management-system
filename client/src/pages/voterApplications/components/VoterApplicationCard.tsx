@@ -86,19 +86,20 @@ export default function VoterApplicationCard({ application }: Props) {
 
   return (
     <div className="border-2 border-slate-300 mx-2 p-2 rounded flex flex-col gap-2">
-      <div className="flex gap-2 font-medium">
-        <div className="">
+      <div className="flex gap-2 font-medium ">
+        <div className=" w-1/2 h-full flex flex-col">
           <p>Passport photo</p>
           <img
-            className="rounded"
+            className="rounded  w-full object-cover object-center h-[300px] "
             src={`${serverUrl}/${application.passport_photo_url}`}
             alt=""
           />
         </div>
-        <div>
+
+        <div className="w-1/2 h-full flex flex-col">
           <p>Student ID Photo</p>
           <img
-            className="rounded"
+            className="rounded  w-full object-cover object-center h-[300px] "
             src={`${serverUrl}/${application.id_photo_url}`}
             alt=""
           />

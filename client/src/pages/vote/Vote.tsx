@@ -16,7 +16,6 @@ export default function Vote() {
           `${serverUrl}/elections/user-registered/${user?.id}`
         );
         const result: ResultType = await response.json();
-        console.log(result);
 
         if (result.error) {
           throw new Error(result.error.message);
@@ -32,7 +31,10 @@ export default function Vote() {
     }
 
     getData();
-  }, []);
+  }, [user?.id]);
+
+  console.log(elections);
+
   return (
     <div className="grow  max-w-[75%]">
       <h1 className="mt-6 mx-6 text-2xl font-medium">Vote</h1>

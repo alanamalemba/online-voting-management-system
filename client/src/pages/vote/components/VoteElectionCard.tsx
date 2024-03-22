@@ -1,46 +1,88 @@
 import { ElectionType } from "../../../utilities/Types";
 import { serverUrl } from "../../../utilities/constants";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Ballot from "./Ballot";
+import toast from "react-hot-toast";
+import { getFormattedTime } from "../../../utilities/getFormatedTime";
 
 type Props = {
   election: ElectionType;
 };
 
 export default function VoteElectionCard({ election }: Props) {
-  const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
   const [isShowBallot, setIsShowBallot] = useState(false);
 
+  const currentDate = new Date();
+  const startDate = new Date(election.start_date);
+  const endDate = new Date(election.end_date);
+
+  const [isElectionStarted, setIsElectionStarted] = useState(
+    currentDate > startDate
+  );
+
+  const [isElectionEnded, setIsElectionEnded] = useState(currentDate > endDate);
+
+  const [timeToStart, setTimeToStart] = useState<number | null>(null);
+  const [timeToEnd, setTimeToEnd] = useState<number | null>(null);
+
   useEffect(() => {
-    const calculateTimeRemaining = () => {
+    function getTimeToStart() {
       const now = new Date().getTime();
-      const startDate = new Date(election.start_date).getTime();
-      const timeDiff = startDate - now;
-      setTimeRemaining(timeDiff);
-    };
+      const start = new Date(election.start_date).getTime();
 
-    calculateTimeRemaining();
+      if (now > start) {
+        setIsElectionStarted(true);
+        return;
+      }
 
-    const timer = setInterval(() => {
-      calculateTimeRemaining();
-    }, 1000);
+      setTimeToStart(start - now);
+    }
 
-    return () => clearInterval(timer);
-  }, [election.start_date]);
+    function getTimeToEnd() {
+      const now = new Date().getTime();
+      const start = new Date(election.end_date).getTime();
 
-  function formatTime(time: number): string {
-    const days = Math.floor(time / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((time % (1000 * 60)) / 1000);
+      if (now > start) {
+        setIsElectionEnded(true);
+        return;
+      }
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
+      setTimeToEnd(start - now);
+    }
 
-  const startDate = new Date(election.start_date).toString();
-  const endDate = new Date(election.end_date).toString();
+    // if election has not started, show the
+    // upcoming election countdown
+    if (!isElectionStarted) {
+      getTimeToStart();
+      const interval = setInterval(() => {
+        getTimeToStart();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+
+    //if election is ongoing, show the election count down
+    // and do some stuff
+    if (isElectionStarted && !isElectionEnded) {
+      getTimeToEnd();
+      const interval = setInterval(() => {
+        getTimeToEnd();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [
+    election.start_date,
+    isElectionStarted,
+    isElectionEnded,
+    election.end_date,
+  ]);
+
+  if (isElectionEnded) return;
 
   function handleClick() {
+    if (!isElectionStarted) {
+      toast.error("Election has not started yet!");
+      return;
+    }
     setIsShowBallot(true);
   }
 
@@ -50,12 +92,17 @@ export default function VoteElectionCard({ election }: Props) {
         className="border-2 text-left border-slate-200 rounded-lg overflow-hidden border-t-green-500 relative "
         onClick={handleClick}
       >
-        <div className=" text-center p-2 bg-blue-500 absolute right-0 w-4/5 rounded-bl-md font-semibold text-sm shadow-md bg-opacity-80 text-white">
-          Election starts in:{" "}
-          {timeRemaining !== null
-            ? formatTime(timeRemaining)
-            : "Calculating..."}
-        </div>
+        {!isElectionStarted && (
+          <div className=" text-center p-2 bg-blue-500 absolute right-0 w-4/5 rounded-bl-md font-semibold text-sm shadow-md bg-opacity-80 text-white">
+            <p> Election starts in: {getFormattedTime(timeToStart)}</p>
+          </div>
+        )}
+
+        {isElectionStarted && (
+          <div className=" text-center p-2 bg-green-500 absolute right-0 w-4/5 rounded-bl-md font-semibold text-sm shadow-md bg-opacity-80 text-white">
+            <p> Election ends in: {getFormattedTime(timeToEnd)}</p>
+          </div>
+        )}
 
         <img
           className="h-[200px] w-full object-cover border-b-2"
@@ -66,15 +113,17 @@ export default function VoteElectionCard({ election }: Props) {
         <div className="p-2 flex flex-col gap-1 ">
           <p className="text-lg font-medium">{election.name}</p>
           <p className="text-xs font-medium text-slate-800 ">
-            Starting on {startDate}
+            Starting on {new Date(election.start_date).toString()}
           </p>
           <p className="text-xs font-medium text-slate-800 ">
-            Ending on {endDate}
+            Ending on {new Date(election.end_date).toString()}
           </p>
         </div>
       </button>
 
-      {isShowBallot && <Ballot election={election} />}
+      {isShowBallot && (
+        <Ballot election={election} setIsShowBallot={setIsShowBallot} />
+      )}
     </>
   );
 }
