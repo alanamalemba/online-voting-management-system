@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   CandidateType,
   ElectionType,
@@ -8,13 +8,20 @@ import {
 import { serverUrl } from "../../../../../../utilities/constants";
 import CandidateCard from "./components/candidateCard/CandidateCard";
 import toast from "react-hot-toast";
+import { UserContext } from "../../../../../../context/UserContextProvider";
 
 type Props = {
   election: ElectionType;
   setIsShowBallot: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsVoted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Ballot({ election, setIsShowBallot }: Props) {
+export default function Ballot({
+  election,
+  setIsShowBallot,
+  setIsVoted,
+}: Props) {
+  const { user } = useContext(UserContext);
   const [votes, setVotes] = useState<VoteType[]>([]);
   const [candidates, setCandidates] = useState<CandidateType[]>([]);
   const [positions, setPositions] = useState<PositionType[]>([]);
@@ -29,8 +36,6 @@ export default function Ballot({ election, setIsShowBallot }: Props) {
       .then((result) => setPositions(result.success.data))
       .catch((err) => console.error(err.message));
   }, [election.id]);
-
-  console.log("Votes:", votes);
 
   function handleCheck(candidate_id: number, position_id: number) {
     // Check if the vote already exists
@@ -70,12 +75,13 @@ export default function Ballot({ election, setIsShowBallot }: Props) {
     fetch(`${serverUrl}/votes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(votes),
+      body: JSON.stringify({ eid: election.id, uid: user?.id, votes: votes }),
     })
       .then((res) => res.json())
       .then((result) => {
         toast.success(result.success.message);
         setIsShowBallot(false);
+        setIsVoted(true);
       })
       .catch((err) => console.error(err.message));
   }

@@ -14,6 +14,7 @@ import ManageElections from "./pages/manageElections/ManageElections";
 import CandidateApplications from "./pages/candidateApplications/CandidateApplications";
 import VoterApplications from "./pages/voterApplications/VoterApplications";
 import Vote from "./pages/vote/Vote";
+import ElectionResults from "./pages/electionResults/ElectionResults";
 
 export default function App() {
   const { user } = useContext(UserContext);
@@ -44,6 +45,9 @@ export default function App() {
                 path="/upcoming-elections"
                 element={<UpcomingElections />}
               />
+
+              <Route path="/election-results" element={<ElectionResults />} />
+
               <Route path="/manage-user-roles" element={<ManageUserRoles />} />
             </Route>
 

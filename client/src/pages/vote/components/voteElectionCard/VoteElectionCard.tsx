@@ -1,28 +1,33 @@
 import { ElectionType } from "../../../../utilities/Types";
 import { serverUrl } from "../../../../utilities/constants";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Ballot from "./components/ballot/Ballot";
 import toast from "react-hot-toast";
-import Counter from "./components/ballot/components/candidateCard/counter/Counter";
+import Counter from "./components/counter/Counter";
+import { UserContext } from "../../../../context/UserContextProvider";
 
 type Props = {
   election: ElectionType;
 };
 
 export default function VoteElectionCard({ election }: Props) {
+  const { user } = useContext(UserContext);
   const [isShowBallot, setIsShowBallot] = useState(false);
-
+  const [isVoted, setIsVoted] = useState(false);
   const currentDate = new Date();
   const startDate = new Date(election.start_date);
   const endDate = new Date(election.end_date);
-
   const [isElectionStarted, setIsElectionStarted] = useState(
     currentDate > startDate
   );
-
   const [isElectionEnded, setIsElectionEnded] = useState(currentDate > endDate);
 
-  if (isElectionEnded) return;
+  useEffect(() => {
+    fetch(`${serverUrl}/voters/${election.id}/${user?.id}`)
+      .then((res) => res.json())
+      .then((request) => setIsVoted(request.success.data.voted))
+      .catch((err) => console.error(err.message));
+  }, [election.id, user?.id]);
 
   function handleClick() {
     if (!isElectionStarted) {
@@ -31,6 +36,8 @@ export default function VoteElectionCard({ election }: Props) {
     }
     setIsShowBallot(true);
   }
+
+  if (isElectionEnded || isVoted) return null;
 
   return (
     <>
@@ -64,7 +71,11 @@ export default function VoteElectionCard({ election }: Props) {
       </button>
 
       {isShowBallot && (
-        <Ballot election={election} setIsShowBallot={setIsShowBallot} />
+        <Ballot
+          election={election}
+          setIsShowBallot={setIsShowBallot}
+          setIsVoted={setIsVoted}
+        />
       )}
     </>
   );

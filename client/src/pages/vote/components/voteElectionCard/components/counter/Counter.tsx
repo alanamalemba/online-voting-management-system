@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getFormattedTime } from "../../../../../../../../../utilities/getFormatedTime";
-import { ElectionType } from "../../../../../../../../../utilities/Types";
+import { getFormattedTime } from "../../../../../../utilities/getFormatedTime";
+import { ElectionType } from "../../../../../../utilities/Types";
 
 type Props = {
   isElectionEnded: boolean;

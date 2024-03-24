@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import VoteElectionCard from "./components/voteElectionCard/VoteElectionCard";
 import { ElectionType, ResultType } from "../../utilities/Types";
 import { serverUrl } from "../../utilities/constants";
 import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContextProvider";
+import VoteElectionCard from "./components/voteElectionCard/VoteElectionCard";
 
 export default function Vote() {
   const { user } = useContext(UserContext);

@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="relative bg-indigo-900 h-[33vh] font-medium text-white ">
-      <nav className="absolute left-0 right-0  top-0 z-10 max-w-[1200px] mx-auto flex justify-between p-4 border-b border-indigo-600">
+      <nav className="absolute left-0 right-0  top-0 z-10 max-w-[1400px] mx-auto flex justify-between p-4 border-b border-indigo-600">
         <img className="h-[40px] w-[160px] object-cover" src={logo} alt="" />
 
         <div className="flex gap-2 items-center">
@@ -20,7 +20,7 @@ export default function Header() {
         </div>
       </nav>
 
-      <div className="py-6 px-4 absolute z-10 top-1/4 max-w-[1200px] mx-auto left-0 right-0">
+      <div className="py-6 px-4 absolute z-10 top-1/4 max-w-[1400px] mx-auto left-0 right-0">
         <h1 className="text-4xl font-bold text-indigo-200">
           Online Voting System
         </h1>

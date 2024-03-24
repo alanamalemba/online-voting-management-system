@@ -63,3 +63,9 @@ export type VoteType = {
   candidate_id: number;
   position_id: number;
 };
+
+export type VoterType = {
+  election_id: number;
+  user_id: number;
+  voted: boolean;
+};

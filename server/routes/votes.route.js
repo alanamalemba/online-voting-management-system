@@ -1,15 +1,20 @@
 const express = require("express");
 
-const { votes } = require("../models");
+const { votes, voters } = require("../models");
 
 const router = express.Router();
 
 //submit votes
 router.post("/", async (req, res) => {
   try {
-    const votesList = req.body;
+    const request = req.body;
 
-    await votes.bulkCreate(votesList);
+    await votes.bulkCreate(request.votes);
+
+    await voters.update(
+      { voted: true },
+      { where: { user_id: request.uid, election_id: request.eid } }
+    );
 
     res.json({ success: { message: "Ballot votes submitted Successfully!" } });
   } catch (error) {
