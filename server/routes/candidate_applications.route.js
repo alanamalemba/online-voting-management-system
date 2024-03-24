@@ -81,6 +81,7 @@ router.patch("/update-status", async (req, res) => {
       await candidates.create({
         user_id: request.uid,
         election_id: request.eid,
+        position_id: request.position_id,
         passport_photo_url: request.photoUrl,
       });
     }

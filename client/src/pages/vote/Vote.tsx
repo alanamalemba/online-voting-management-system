@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import VoteElectionCard from "./components/VoteElectionCard";
+import VoteElectionCard from "./components/voteElectionCard/VoteElectionCard";
 import { ElectionType, ResultType } from "../../utilities/Types";
 import { serverUrl } from "../../utilities/constants";
 import toast from "react-hot-toast";
@@ -15,7 +15,7 @@ export default function Vote() {
         const response = await fetch(
           `${serverUrl}/elections/user-registered/${user?.id}`
         );
-        const result: ResultType = await response.json();
+        const result: ResultType<ElectionType[]> = await response.json();
 
         if (result.error) {
           throw new Error(result.error.message);
@@ -32,8 +32,6 @@ export default function Vote() {
 
     getData();
   }, [user?.id]);
-
-  console.log(elections);
 
   return (
     <div className="grow  max-w-[75%]">

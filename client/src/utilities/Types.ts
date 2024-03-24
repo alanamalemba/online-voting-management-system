@@ -7,6 +7,14 @@ export type UserType = {
   role: string;
 };
 
+export type CandidateType = {
+  id: number;
+  user_id: number;
+  election_id: number;
+  passport_photo_url: string;
+  position_id: number;
+};
+
 export type ElectionType = {
   id: number;
   name: string;
@@ -42,10 +50,16 @@ export type VoterApplicationType = {
   status: "pending" | "accepted" | "rejected";
 };
 
-export type ResultType = {
+export type ResultType<T> = {
   success: {
-    data: any;
+    data: T;
     message: string;
   };
   error: { message: string };
+};
+
+export type VoteType = {
+  election_id: number;
+  candidate_id: number;
+  position_id: number;
 };

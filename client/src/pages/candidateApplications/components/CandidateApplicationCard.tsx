@@ -42,6 +42,7 @@ export default function CandidateApplicationCard({ application }: Props) {
         aid: number;
         eid?: number;
         uid?: number;
+        position_id?: number;
         photoUrl?: string;
       };
 
@@ -54,6 +55,7 @@ export default function CandidateApplicationCard({ application }: Props) {
         data.uid = user?.id;
         data.eid = application.election_id;
         data.photoUrl = application.passport_photo_url;
+        data.position_id = application.position_id;
       }
 
       const response = await fetch(
@@ -67,7 +69,7 @@ export default function CandidateApplicationCard({ application }: Props) {
         }
       );
 
-      const result: ResultType = await response.json();
+      const result: ResultType<null> = await response.json();
       console.log(result);
 
       if (result.error) {
