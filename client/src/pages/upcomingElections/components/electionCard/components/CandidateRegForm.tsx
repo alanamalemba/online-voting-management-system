@@ -51,6 +51,18 @@ export default function CandidateRegForm({
     e.preventDefault();
 
     try {
+      //first check if the re number exists in db
+      const res = await fetch(`${serverUrl}/students/student/${regNumber}`);
+
+      const result2 = await res.json();
+
+      if (!result2.success.data) {
+        toast.error("This Registration number does not exist!");
+        return;
+      }
+
+      //...
+
       const formData = new FormData();
 
       formData.append("userId", user?.id.toString() as string);

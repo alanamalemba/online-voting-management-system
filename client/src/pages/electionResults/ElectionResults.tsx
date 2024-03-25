@@ -14,10 +14,10 @@ export default function ElectionResults() {
   }, []);
 
   return (
-    <div className="p-6 flex flex-col  gap-4 grow max-w-[75%] ">
+    <div className="p-6 flex flex-col  gap-4 grow lg:max-w-[75%] ">
       <h1 className="text-2xl font-medium">Election Results</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="lg:grid grid-cols-2 lg:grid-cols-3 gap-4">
         {elections.map((election) => (
           <ElectionResultCard key={election.id} election={election} />
         ))}

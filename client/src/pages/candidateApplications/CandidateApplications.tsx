@@ -37,7 +37,7 @@ export default function CandidateApplications() {
   }, [eid]);
 
   return (
-    <div className="grow max-w-[75%]">
+    <div className="grow lg:max-w-[75%]">
       <div className="flex items-center mx-6 mt-6 gap-4  ">
         <button onClick={() => navigate(-1)} className="p-1 ">
           back

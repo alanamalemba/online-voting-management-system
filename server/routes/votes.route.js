@@ -23,4 +23,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+//get all votes in this election
+router.get("/election/:eid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const votesList = await votes.findAll({ where: { election_id: eid } });
+
+    res.json({ success: { data: votesList } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "internal Server Error!" } });
+  }
+});
+
 module.exports = router;

@@ -30,6 +30,18 @@ export default function VoterRegForm({
     e.preventDefault();
 
     try {
+      //first check if the re number exists in db
+      const res = await fetch(`${serverUrl}/students/student/${regNumber}`);
+
+      const result2 = await res.json();
+
+      if (!result2.success.data) {
+        toast.error("This Registration number does not exist!");
+        return;
+      }
+
+      //...
+
       const formData = new FormData();
 
       formData.append("userId", user?.id.toString() as string);
@@ -47,14 +59,13 @@ export default function VoterRegForm({
       );
 
       const result = await response.json();
-      console.log(result);
       toast.success(result.success.message);
       setVoterApplication(result.success.data);
       setIsShowVoterForm(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
-        toast.error(error.message);
+        toast.error(error?.message);
       }
     }
   }

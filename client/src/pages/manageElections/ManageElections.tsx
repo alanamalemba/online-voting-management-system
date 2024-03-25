@@ -27,7 +27,7 @@ export default function ManageElections() {
   return (
     <div className="md:w-3/4">
       <h1 className="mt-6 mx-6 text-2xl font-medium">Manage Elections</h1>
-      <div className="grid grid-cols-2 gap-4 m-6">
+      <div className="lg:grid grid-cols-2 gap-4 m-6">
         {elections.map((election) => (
           <ElectionCard key={election.id} election={election} />
         ))}

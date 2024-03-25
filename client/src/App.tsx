@@ -15,6 +15,7 @@ import CandidateApplications from "./pages/candidateApplications/CandidateApplic
 import VoterApplications from "./pages/voterApplications/VoterApplications";
 import Vote from "./pages/vote/Vote";
 import ElectionResults from "./pages/electionResults/ElectionResults";
+import RegisterStudent from "./pages/registerStudent/RegisterStudent";
 
 export default function App() {
   const { user } = useContext(UserContext);
@@ -29,6 +30,7 @@ export default function App() {
               <Route index element={<DefaultPage />} />
               <Route path="/create-election" element={<CreateElection />} />
               <Route path="/vote" element={<Vote />} />
+              <Route path="/register-student" element={<RegisterStudent />} />
 
               <Route path="/manage-elections" element={<ManageElections />} />
               <Route

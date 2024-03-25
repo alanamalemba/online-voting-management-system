@@ -69,3 +69,15 @@ export type VoterType = {
   user_id: number;
   voted: boolean;
 };
+
+export type ChartJsDataSetType = {
+  label: string;
+  data: number[];
+  backgroundColor?: string[];
+  borderWidth?: number;
+};
+
+export type ChartJsDataType = {
+  labels: string[];
+  datasets: ChartJsDataSetType[];
+};
