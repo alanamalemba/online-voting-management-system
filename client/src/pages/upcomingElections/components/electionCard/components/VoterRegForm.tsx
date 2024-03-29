@@ -30,8 +30,11 @@ export default function VoterRegForm({
     e.preventDefault();
 
     try {
-      //first check if the re number exists in db
-      const res = await fetch(`${serverUrl}/students/student/${regNumber}`);
+      //first check if the reg number exists in db
+      const encodedRegNumber = encodeURIComponent(regNumber);
+      const res = await fetch(
+        `${serverUrl}/students/student/${encodedRegNumber}`
+      );
 
       const result2 = await res.json();
 

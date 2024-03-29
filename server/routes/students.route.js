@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 // get a student with this regNo
 router.get("/student/:regNo", async (req, res) => {
   try {
-    const regNo = req.params.regNo;
+    const regNo = decodeURIComponent(req.params.regNo);
     const studentObj = await students.findOne({ where: { reg_number: regNo } });
 
     res.json({ success: { data: studentObj } });

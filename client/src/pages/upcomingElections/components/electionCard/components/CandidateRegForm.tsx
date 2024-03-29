@@ -52,8 +52,10 @@ export default function CandidateRegForm({
 
     try {
       //first check if the re number exists in db
-      const res = await fetch(`${serverUrl}/students/student/${regNumber}`);
-
+      const encodedRegNumber = encodeURIComponent(regNumber);
+      const res = await fetch(
+        `${serverUrl}/students/student/${encodedRegNumber}`
+      );
       const result2 = await res.json();
 
       if (!result2.success.data) {
