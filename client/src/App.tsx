@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "./pages/auth/Auth";
-import Login from "./pages/auth/components/Login";
-import SignUp from "./pages/auth/components/SignUp";
+import Login from "./pages/auth/login/Login";
 import { useContext } from "react";
 import Header from "./layout/header/Header";
 import { UserContext } from "./context/UserContextProvider";
@@ -16,12 +15,13 @@ import VoterApplications from "./pages/voterApplications/VoterApplications";
 import Vote from "./pages/vote/Vote";
 import ElectionResults from "./pages/electionResults/ElectionResults";
 import RegisterStudent from "./pages/registerStudent/RegisterStudent";
+import SignUp from "./pages/auth/signUp/SignUp";
 
 export default function App() {
   const { user } = useContext(UserContext);
 
   return (
-    <main className=" min-h-screen bg-indigo-50 pb-6">
+    <main className=" min-h-screen bg-indigo-50 ">
       {user ? (
         <>
           <Header />
