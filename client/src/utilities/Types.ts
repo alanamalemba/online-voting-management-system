@@ -59,15 +59,24 @@ export type ResultType<T> = {
 };
 
 export type VoteType = {
+  id?: number;
   election_id: number;
   candidate_id: number;
   position_id: number;
+  createdAt?: string;
 };
 
 export type VoterType = {
   election_id: number;
   user_id: number;
   voted: boolean;
+};
+
+export type VoteDataType = {
+  candidate: string;
+  position: string;
+  voteId: number;
+  time: string;
 };
 
 export type ChartJsDataSetType = {

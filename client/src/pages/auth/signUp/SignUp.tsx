@@ -13,6 +13,8 @@ export type NewUserType = {
 };
 
 export default function SignUp() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +28,8 @@ export default function SignUp() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       setNewUser({
         email: email,
         first_name: firstName,
@@ -56,6 +60,8 @@ export default function SignUp() {
         console.error(error.message);
         toast.error(error.message);
       }
+    } finally {
+      setIsLoading(true);
     }
   }
 
@@ -131,8 +137,11 @@ export default function SignUp() {
           />
         </label>
 
-        <button className="bg-primaryColor p-2 rounded-md text-white">
-          Sign Up
+        <button
+          className="bg-primaryColor p-2 rounded-md text-white"
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Sign Up"}
         </button>
 
         <div className="p-4 border-t-2 flex justify-center gap-2 text-sm">

@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 import {
   CandidateType,
   UserType,
+  VoteType,
 } from "../../../../../../../../utilities/Types";
 import { serverUrl } from "../../../../../../../../utilities/constants";
 
 type Props = {
   candidate: CandidateType;
   handleCheck(candidate_id: number, position_id: number): void;
+  votes: VoteType[];
 };
 
-export default function CandidateCard({ candidate, handleCheck }: Props) {
+export default function CandidateCard({
+  candidate,
+  handleCheck,
+  votes,
+}: Props) {
   const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
@@ -22,7 +28,7 @@ export default function CandidateCard({ candidate, handleCheck }: Props) {
   return (
     <label
       key={candidate.id}
-      className="border-2 border-indigo-200 p-2 rounded-md flex gap-2 justify-between items-center text-3xl font-medium"
+      className="border-2 border-slate-400 p-2 rounded-md flex gap-2 justify-between items-center text-3xl font-medium"
     >
       <img
         className="w-[120px] h-[120px] rounded-full object-center object-cover "
@@ -37,6 +43,11 @@ export default function CandidateCard({ candidate, handleCheck }: Props) {
       <input
         onClick={() => handleCheck(candidate.id, candidate.position_id)}
         type="checkbox"
+        checked={votes.some(
+          (vote) =>
+            vote.candidate_id === candidate.id &&
+            vote.position_id === candidate.position_id
+        )}
         className="scale-[3] m-4"
       />
     </label>

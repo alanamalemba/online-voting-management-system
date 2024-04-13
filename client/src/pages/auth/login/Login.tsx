@@ -8,6 +8,7 @@ import LoginPopUp from "./components/LoginPopUp";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isShowPopup, setIsShowPopup] = useState(false);
 
@@ -15,6 +16,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
       const response = await fetch(`${serverUrl}/auth/login`, {
         method: "POST",
         headers: {
@@ -38,6 +40,8 @@ export default function Login() {
         console.error(error.message);
         toast.error(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -80,8 +84,11 @@ export default function Login() {
           <span className="text-primaryColor">Forgot your password?</span>
         </div>
 
-        <button className="bg-primaryColor p-2 rounded-md text-white">
-          Login
+        <button
+          className="bg-primaryColor p-2 rounded-md text-white"
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Login"}
         </button>
 
         <div className="p-4 border-t-2  text-sm flex gap-2 justify-center">

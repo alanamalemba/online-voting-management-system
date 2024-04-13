@@ -16,12 +16,13 @@ import Vote from "./pages/vote/Vote";
 import ElectionResults from "./pages/electionResults/ElectionResults";
 import RegisterStudent from "./pages/registerStudent/RegisterStudent";
 import SignUp from "./pages/auth/signUp/SignUp";
+import ViewElectionReport from "./pages/viewElectionReport/ViewElectionReport";
 
 export default function App() {
   const { user } = useContext(UserContext);
 
   return (
-    <main className=" min-h-screen bg-indigo-50 ">
+    <main className=" min-h-screen bg-indigo-50 pb-6">
       {user ? (
         <>
           <Header />
@@ -49,6 +50,7 @@ export default function App() {
               />
 
               <Route path="/election-results" element={<ElectionResults />} />
+              <Route path="/election-report" element={<ViewElectionReport />} />
 
               <Route path="/manage-user-roles" element={<ManageUserRoles />} />
             </Route>

@@ -19,4 +19,17 @@ router.get("/election/:eid", async (req, res) => {
   }
 });
 
+// get position with this id
+router.get("/position/:pid", async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const position = await positions.findByPk(pid);
+
+    res.json({ success: { data: position } });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal Server Error" } });
+  }
+});
+
 module.exports = router;

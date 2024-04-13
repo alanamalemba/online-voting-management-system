@@ -38,15 +38,18 @@ export default function Ballot({
   }, [election.id]);
 
   function handleCheck(candidate_id: number, position_id: number) {
-    // Check if the vote already exists
-
-    const voteExists = votes.some(
+    // Constants
+    const hasVotedForCandidate = votes.some(
       (vote) =>
         vote.candidate_id === candidate_id && vote.position_id === position_id
     );
 
-    // If the vote exists, remove it
-    if (voteExists) {
+    const hasVotedForPosition = votes.some(
+      (vote) => vote.position_id === position_id
+    );
+
+    // Remove the existing vote if it exists
+    if (hasVotedForCandidate) {
       const updatedVotes = votes.filter(
         (vote) =>
           !(
@@ -54,12 +57,22 @@ export default function Ballot({
             vote.position_id === position_id
           )
       );
-
-      setVotes(updatedVotes);
-      return;
+      return setVotes(updatedVotes);
     }
 
-    // if vote does not exist, add it
+    // Remove previous position vote and add the new vote
+    if (hasVotedForPosition) {
+      const updatedVotes = votes.filter(
+        (vote) => vote.position_id !== position_id
+      );
+
+      return setVotes([
+        ...updatedVotes,
+        { candidate_id, position_id, election_id: election.id },
+      ]);
+    }
+
+    // Add new vote if neither candidate nor position has been voted for
     setVotes([
       ...votes,
       { candidate_id, position_id, election_id: election.id },
@@ -85,6 +98,7 @@ export default function Ballot({
       })
       .catch((err) => console.error(err.message));
   }
+  console.log(votes);
 
   return (
     <div className=" p-6 bg-black fixed inset-0 z-10 bg-opacity-60 flex gap-6 justify-center items-center">
@@ -123,6 +137,7 @@ export default function Ballot({
                             key={candidate.id}
                             candidate={candidate}
                             handleCheck={handleCheck}
+                            votes={votes}
                           />
                         )
                     )

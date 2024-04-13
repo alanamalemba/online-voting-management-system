@@ -69,6 +69,13 @@ export default function SideNav() {
           >
             Create election
           </NavLink>
+
+          <NavLink
+            className="hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+            to={`election-report`}
+          >
+            View election report
+          </NavLink>
         </>
       )}
 
@@ -91,6 +98,13 @@ export default function SideNav() {
       >
         View election results
       </NavLink>
+
+      <a
+        href="mailto:alanlsamalemba@gmail.com?subject=SUPPORT%20REQUEST"
+        className="hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+      >
+        Contact support
+      </a>
 
       <hr />
 

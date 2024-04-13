@@ -32,7 +32,7 @@ router.get("/election/:eid", async (req, res) => {
     res.json({ success: { data: votesList } });
   } catch (error) {
     console.error(error.message);
-    res.json({ error: { message: "internal Server Error!" } });
+    res.json({ error: { message: "Internal Server Error!" } });
   }
 });
 
