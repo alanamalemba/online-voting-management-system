@@ -5,8 +5,6 @@ import toast from "react-hot-toast";
 export default function RegisterStudent() {
   const [regNo, setRegNo] = useState("");
 
-  useEffect(() => {}, []);
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 

@@ -37,7 +37,7 @@ export default function Vote() {
     <div className="grow  max-w-[75%]">
       <h1 className="mt-6 mx-6 text-2xl font-medium">Vote</h1>
 
-      <div className="grid gap-2 grid-cols-2 m-6">
+      <div className="grid gap-2 lg:grid-cols-2 m-6">
         {elections.map((election) => (
           <VoteElectionCard key={election.id} election={election} />
         ))}

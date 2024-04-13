@@ -4,6 +4,7 @@ import { CandidateApplicationType, ElectionType } from "../../utilities/Types";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/constants";
 import CandidateApplicationCard from "./components/CandidateApplicationCard";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CandidateApplications() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function CandidateApplications() {
     <div className="grow lg:max-w-[75%]">
       <div className="flex items-center mx-6 mt-6 gap-4  ">
         <button onClick={() => navigate(-1)} className="p-1 ">
-          back
+          <ArrowBackIcon />
         </button>
         <h1 className=" text-2xl font-medium">
           {election?.name} Candidate Applications

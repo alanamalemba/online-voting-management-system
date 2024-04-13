@@ -9,6 +9,7 @@ import { serverUrl } from "../../../../../../utilities/constants";
 import CandidateCard from "./components/candidateCard/CandidateCard";
 import toast from "react-hot-toast";
 import { UserContext } from "../../../../../../context/UserContextProvider";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
   election: ElectionType;
@@ -107,7 +108,7 @@ export default function Ballot({
           className="absolute top-0 right-0 p-2"
           onClick={() => setIsShowBallot(false)}
         >
-          close
+          <CloseIcon />
         </button>
 
         <h1 className="text-2xl font-semibold text-center ">

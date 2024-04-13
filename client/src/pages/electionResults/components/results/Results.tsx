@@ -7,6 +7,7 @@ import {
 } from "../../../../utilities/Types";
 import { serverUrl } from "../../../../utilities/constants";
 import ResultsChart from "./resultsChart/ResultsChart";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
   election: ElectionType;
@@ -70,7 +71,9 @@ export default function Results({ election, setIsShowResults }: Props) {
       <div className="overflow-y-auto h-[90%] bg-white w-full lg:max-w-[85%] mx-auto my-6 rounded-md p-4 flex flex-col gap-2">
         <div className="flex justify-between mb-6">
           <h2 className="text-2xl   font-semibold">{election.name} Results</h2>
-          <button onClick={() => setIsShowResults(false)}>Close</button>
+          <button onClick={() => setIsShowResults(false)}>
+            <CloseIcon />
+          </button>
         </div>
 
         <div className="flex flex-col md:grid lg:grid-cols-2 gap-2 ">

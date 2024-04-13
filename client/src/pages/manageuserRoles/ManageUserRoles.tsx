@@ -4,6 +4,7 @@ import { UserType } from "../../utilities/Types";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../utilities/constants";
 import { UserContext } from "../../context/UserContextProvider";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function ManageUserRoles() {
   const { user } = useContext(UserContext);
@@ -49,10 +50,10 @@ export default function ManageUserRoles() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
-          className="p-2 border rounded-full w-[40px] h-[40px]"
+          className="p-2 flex justify-center items-center border rounded-full w-[40px] h-[40px]"
           type="button"
         >
-          S
+          <SearchIcon />
         </button>
       </div>
 
