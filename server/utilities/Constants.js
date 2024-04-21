@@ -3,6 +3,6 @@ const transportAuth = {
   password: "hwfyyzftjozjcbrh ",
 };
 
-const websiteUrl = "http://localhost:5173/";
+const websiteUrl = "http://localhost:5173";
 
 module.exports = { transportAuth, websiteUrl };

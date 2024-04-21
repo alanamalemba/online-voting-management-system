@@ -35,9 +35,12 @@ export default function ElectionCard({ election }: Props) {
 
         <div className="flex flex-col p-1">
           {user?.role === "admin" && (
-            <button className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium">
+            <Link
+              to={`edit-election/${election.id}`}
+              className="border bg-indigo-500 p-2 rounded  text-center text-white font-medium"
+            >
               Edit Election
-            </button>
+            </Link>
           )}
 
           {user?.role === "candidate_registrar" && (

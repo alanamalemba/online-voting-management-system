@@ -83,4 +83,25 @@ router.get("/user-registered/:uid", async (req, res) => {
   }
 });
 
+// edit elections
+router.patch("/edit-election/:eid", async (req, res) => {
+  try {
+    const eid = req.params.eid;
+    const response = req.body;
+
+    const election = await elections.findByPk(eid);
+
+    election.name = response.electionName;
+    election.start_date = response.startDate;
+    election.end_date = response.endDate;
+
+    election.save();
+
+    res.json({ success: { message: "Election Edited Succesfully!" } });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ error: { message: "Internal Server Error!" } });
+  }
+});
+
 module.exports = router;

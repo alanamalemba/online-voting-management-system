@@ -24,7 +24,7 @@ export default function SideNav() {
       id="side-bar"
       className=" py-4 border-r  border-slate-300 flex flex-col gap-2  text-slate-800 font-medium text-sm  lg:max-w-[25%] grow "
     >
-      <Link className="flex items-center gap-2 mx-4" to={``}>
+      <Link className="flex items-center gap-2 mx-4" to={`/edit-account`}>
         <div className="h-[45px] w-[45px] rounded-full overflow-hidden border-[3px] p-[2px] border-indigo-200">
           <div className="h-full w-full bg-indigo-200  rounded-full  "></div>
         </div>
@@ -70,7 +70,7 @@ export default function SideNav() {
           </NavLink>
 
           <NavLink
-            className="flex gap-1 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+            className="flex gap-2 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
             to={`/manage-user-roles`}
           >
             <GroupIcon />
@@ -78,7 +78,7 @@ export default function SideNav() {
           </NavLink>
 
           <NavLink
-            className="flex gap-1 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+            className="flex gap-2 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
             to={`/create-election`}
           >
             <AddBoxIcon />
@@ -86,7 +86,7 @@ export default function SideNav() {
           </NavLink>
 
           <NavLink
-            className="flex gap-1 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+            className="flex gap-2 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
             to={`election-report`}
           >
             <TableChartIcon />
@@ -100,7 +100,7 @@ export default function SideNav() {
         user?.role === "admin") && (
         <>
           <NavLink
-            className="flex gap-1 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
+            className="flex gap-2 items-center hover:bg-indigo-100 py-3 px-4 rounded-md mx-4"
             to={`/manage-elections`}
           >
             <FactCheckIcon />

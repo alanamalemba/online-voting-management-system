@@ -4,6 +4,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { serverUrl } from "../../../utilities/constants";
 import LoginPopUp from "./components/LoginPopUp";
+import PasswordReset from "./components/PasswordReset";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isShowPopup, setIsShowPopup] = useState(false);
+  const [isShowPasswordReset, setIsShowPasswordReset] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -81,7 +83,13 @@ export default function Login() {
         </label>
 
         <div className="  text-sm">
-          <span className="text-primaryColor">Forgot your password?</span>
+          <button
+            type="button"
+            onClick={() => setIsShowPasswordReset(true)}
+            className="text-primaryColor"
+          >
+            Forgot your password?
+          </button>
         </div>
 
         <button
@@ -101,6 +109,13 @@ export default function Login() {
 
       {isShowPopup && (
         <LoginPopUp email={email} setIsShowPopup={setIsShowPopup} />
+      )}
+
+      {isShowPasswordReset && (
+        <PasswordReset
+          email={email}
+          setIsShowPasswordReset={setIsShowPasswordReset}
+        />
       )}
     </>
   );

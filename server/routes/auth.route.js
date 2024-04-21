@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const generateRandomString = require("../utilities/generateRandomString");
 const { users, verification_codes } = require("../models");
 const sendEmail = require("../utilities/sendEmail");
+const { websiteUrl } = require("../utilities/Constants");
 
 const router = express.Router();
 
@@ -168,6 +169,51 @@ router.post("/verify/login", async (req, res) => {
     const userData = await users.findOne({ where: { email: email } });
     res.json({ success: { data: userData } });
     codeExists.destroy();
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal server error!" } });
+  }
+});
+
+// handle forgot password, send password reset link
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const userEmail = req.body.userEmail;
+
+    const user = await users.findOne({ where: { email: userEmail } });
+
+    if (!user) {
+      return res.json({
+        error: { message: `User with email, "${userEmail}" does not exist!` },
+      });
+    }
+
+    await sendEmail(
+      user.first_name,
+      userEmail,
+      "RESET OF PASSWORD",
+      `Follow this link to reset your password: 
+      <a href="${websiteUrl}/reset-password/${user.email}">Reset password</a>`
+    );
+
+    res.json({
+      success: { message: `Password reset link sent to email successfully!` },
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ error: { message: "Internal server error!" } });
+  }
+});
+
+router.post("/reset-password", async (req, res) => {
+  try {
+    const details = req.body;
+
+    const hash = await bcrypt.hash(details.password, 10);
+
+    await users.update({ password: hash }, { where: { email: details.email } });
+
+    res.json({ success: { message: "Password Reset Successfully!" } });
   } catch (error) {
     console.log(error.message);
     res.json({ error: { message: "Internal server error!" } });

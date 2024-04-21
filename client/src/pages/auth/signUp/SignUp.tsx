@@ -14,12 +14,18 @@ export type NewUserType = {
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // State variables to track errors
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const [newUser, setNewUser] = useState<NewUserType>();
   const [isShowPopup, setIsShowPopup] = useState(false);
@@ -65,6 +71,12 @@ export default function SignUp() {
     }
   }
 
+  function validateEmail(email: string): boolean {
+    // Regular expression for email validation
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
   return (
     <>
       <form
@@ -83,8 +95,19 @@ export default function SignUp() {
             placeholder="e.g. John"
             required
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+              setFirstNameError(""); // Reset error on change
+            }}
+            onBlur={() => {
+              if (!firstName) {
+                setFirstNameError("First name is required");
+              }
+            }}
           />
+          {firstNameError && (
+            <span className="text-red-500">{firstNameError}</span>
+          )}
         </label>
 
         <label className=" flex flex-col gap-1">
@@ -95,8 +118,19 @@ export default function SignUp() {
             placeholder="e.g. Doe"
             required
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => {
+              setLastName(e.target.value);
+              setLastNameError(""); // Reset error on change
+            }}
+            onBlur={() => {
+              if (!lastName) {
+                setLastNameError("Last name is required");
+              }
+            }}
           />
+          {lastNameError && (
+            <span className="text-red-500">{lastNameError}</span>
+          )}
         </label>
 
         <label className=" flex flex-col gap-1">
@@ -107,8 +141,19 @@ export default function SignUp() {
             placeholder="e.g. johndoe@mail.com"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError(""); // Reset error on change
+            }}
+            onBlur={() => {
+              if (!email) {
+                setEmailError("Email is required");
+              } else if (!validateEmail(email)) {
+                setEmailError("Invalid email format");
+              }
+            }}
           />
+          {emailError && <span className="text-red-500">{emailError}</span>}
         </label>
 
         <label className=" flex flex-col gap-1">
@@ -120,8 +165,19 @@ export default function SignUp() {
             minLength={6}
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordError(""); // Reset error on change
+            }}
+            onBlur={() => {
+              if (!password) {
+                setPasswordError("Password is required");
+              }
+            }}
           />
+          {passwordError && (
+            <span className="text-red-500">{passwordError}</span>
+          )}
         </label>
 
         <label className=" flex flex-col gap-1">
@@ -133,8 +189,21 @@ export default function SignUp() {
             minLength={6}
             required
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setConfirmPasswordError(""); // Reset error on change
+            }}
+            onBlur={() => {
+              if (!confirmPassword) {
+                setConfirmPasswordError("Confirm Password is required");
+              } else if (confirmPassword !== password) {
+                setConfirmPasswordError("Passwords do not match");
+              }
+            }}
           />
+          {confirmPasswordError && (
+            <span className="text-red-500">{confirmPasswordError}</span>
+          )}
         </label>
 
         <button

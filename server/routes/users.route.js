@@ -45,4 +45,19 @@ router.patch("/update-role", async (req, res) => {
   }
 });
 
+// edit account
+router.patch("/edit-account", async (req, res) => {
+  try {
+    const request = req.body;
+    await users.update(
+      { first_name: request.firstName, last_name: request.lastName },
+      { where: { id: request.uid } }
+    );
+
+    res.json({ success: { message: "Account Edited successfully!" } });
+  } catch (error) {
+    handleError(res, error);
+  }
+});
+
 module.exports = router;

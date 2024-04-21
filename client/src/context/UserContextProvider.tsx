@@ -1,5 +1,6 @@
-import { ReactNode, createContext, useState } from "react";
-import { UserType } from "../utilities/Types";
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { ResultType, UserType } from "../utilities/Types";
+import { serverUrl } from "../utilities/constants";
 
 type Props = {
   children: ReactNode;
@@ -16,9 +17,25 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export default function UserContextProvider({ children }: Props) {
-  const [user, setUser] = useState<UserType | null>(
-    JSON.parse(localStorage.getItem("user") as string)
-  );
+  const [user, setUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    const currentUser: UserType = JSON.parse(
+      localStorage.getItem("user") as string
+    );
+
+    if (!currentUser) return;
+
+    fetch(`${serverUrl}/users/user/${currentUser.id}`)
+      .then((res) => res.json())
+      .then((result: ResultType<UserType>) => {
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
+        setUser(result.success.data);
+      });
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
