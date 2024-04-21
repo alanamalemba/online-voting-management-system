@@ -77,6 +77,12 @@ export default function SignUp() {
     return regex.test(email);
   }
 
+  function validatePassword(password: string): boolean {
+    // Regular expression for password complexity
+    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/;
+    return regex.test(password);
+  }
+
   return (
     <>
       <form
@@ -162,7 +168,7 @@ export default function SignUp() {
             className="border-2 p-2 rounded-md"
             type="password"
             placeholder="e.g. ComplexPassword#&936"
-            minLength={6}
+            minLength={6} // Changed minLength to 6
             required
             value={password}
             onChange={(e) => {
@@ -172,6 +178,10 @@ export default function SignUp() {
             onBlur={() => {
               if (!password) {
                 setPasswordError("Password is required");
+              } else if (!validatePassword(password)) {
+                setPasswordError(
+                  "Password must have at least one uppercase letter, one symbol, one number, and be at least 6 characters long"
+                );
               }
             }}
           />
@@ -186,7 +196,7 @@ export default function SignUp() {
             className="border-2 p-2 rounded-md"
             type="password"
             placeholder="e.g. ComplexPassword#&936"
-            minLength={6}
+            minLength={6} // Changed minLength to 6
             required
             value={confirmPassword}
             onChange={(e) => {
