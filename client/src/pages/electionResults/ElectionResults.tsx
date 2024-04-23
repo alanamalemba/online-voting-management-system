@@ -5,6 +5,7 @@ import ElectionResultCard from "./components/ElectionResultCard";
 
 export default function ElectionResults() {
   const [elections, setElections] = useState<ElectionType[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch(`${serverUrl}/elections`)
@@ -17,10 +18,23 @@ export default function ElectionResults() {
     <div className="p-6 flex flex-col  gap-4 grow lg:max-w-[75%] ">
       <h1 className="text-2xl font-medium">Election Results</h1>
 
-      <div className="lg:grid grid-cols-2 lg:grid-cols-3 gap-4">
-        {elections.map((election) => (
-          <ElectionResultCard key={election.id} election={election} />
-        ))}
+      <input
+        type="text"
+        className="border-2 rounded-md p-2"
+        placeholder="Search for election by election name"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+
+      <div className=" flex flex-col lg:grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {elections.map(
+          (election) =>
+            election.name
+              .toLocaleLowerCase()
+              .includes(searchQuery.toLocaleLowerCase()) && (
+              <ElectionResultCard key={election.id} election={election} />
+            )
+        )}
       </div>
     </div>
   );
